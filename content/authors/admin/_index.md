@@ -1,37 +1,37 @@
 ---
 # Display name
-title: Nelson Bighetti
+title: Karlos Garcia
 
 # Is this the primary user of the site?
 superuser: true
 
 # Role/position
-role: Professor of Artificial Intelligence
+role: Analista de Datos independiente
 
 # Organizations/Affiliations
 organizations:
-- name: Stanford University
-  url: ""
+- name: Finantzan
+  url: "http://www.finantzan.com/"
 
 # Short bio (displayed in user profile at end of posts)
-bio: My research interests include distributed robotics, mobile computing and programmable matter.
+bio: Analisis de datos economicos y financieros en el País Vasco, España y Europa
 
 interests:
-- Artificial Intelligence
-- Computational Linguistics
-- Information Retrieval
+- Analytics
+- Estadistica
+- Economia
 
 education:
   courses:
-  - course: PhD in Artificial Intelligence
-    institution: Stanford University
-    year: 2012
-  - course: MEng in Artificial Intelligence
-    institution: Massachusetts Institute of Technology
-    year: 2009
-  - course: BSc in Artificial Intelligence
-    institution: Massachusetts Institute of Technology
+  - course: BSc Economicas
+    institution: Universidad del País Vasco
     year: 2008
+  - course: BSc Aministración y Finanzas
+    institution: Universidad del País Vasco
+    year: 2010
+  - course: BSc Big Data y Business Analytics
+    institution: Universidad de Deusto
+    year: 2018
 
 # Social/Academic Networking
 # For available icons, see: https://sourcethemes.com/academic/docs/page-builder/#icons
@@ -43,13 +43,13 @@ social:
   link: '/#contact'  # For a direct email link, use "mailto:test@example.org".
 - icon: twitter
   icon_pack: fab
-  link: https://twitter.com/GeorgeCushen
-- icon: google-scholar
-  icon_pack: ai
-  link: https://scholar.google.co.uk/citations?user=sIwtMXoAAAAJ
+  link: https://twitter.com/DevKalos
+#- icon: google-scholar
+#  icon_pack: ai
+#  link: https://scholar.google.co.uk/citations?user=sIwtMXoAAAAJ
 - icon: github
   icon_pack: fab
-  link: https://github.com/gcushen
+  link: https://github.com/maklaskarlos
 # Link to a PDF of your resume/CV from the About widget.
 # To enable, copy your resume/CV to `static/files/cv.pdf` and uncomment the lines below.
 # - icon: cv
@@ -69,6 +69,6 @@ user_groups:
 - Visitors
 ---
 
-Nelson Bighetti is a professor of artificial intelligence at the Stanford AI Lab. His research interests include distributed robotics, mobile computing and programmable matter. He leads the Robotic Neurobiology group, which develops self-reconfiguring robots, systems of self-organizing robots, and mobile sensor networks.
+Bienvenidos al cv-blog de Karlos, un sitio dedicado al analisis de datos economicos, estadistica y donde voy compartir proyectos con los que practico. Enseño como lo hago y los recursos que utilizo para ello, con el objetivo de documentar mi aprendizaje y compartir formación y conocimiento.
 
-Lorem ipsum dolor sit amet, consectetur adipiscing elit. Sed neque elit, tristique placerat feugiat ac, facilisis vitae arcu. Proin eget egestas augue. Praesent ut sem nec arcu pellentesque aliquet. Duis dapibus diam vel metus tempus vulputate.
+Si te gusta probar nuevas tecnologias que te permiten mejorar como profesional, puedes contactar conmigo para preguntarme lo que necesites. En la parte de abajo esta mi contacto.
