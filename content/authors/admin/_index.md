@@ -16,22 +16,22 @@ organizations:
 # Short bio (displayed in user profile at end of posts)
 bio: Analisis de datos economicos y financieros en el País Vasco, España y Europa
 
-interests:
+intereses:
 - Analytics
 - Estadistica
 - Economia
 
-education:
-  courses:
-  - course: BSc Economicas
-    institution: Universidad del País Vasco
-    year: 2008
-  - course: BSc Aministración y Finanzas
-    institution: Universidad del País Vasco
-    year: 2010
-  - course: BSc Big Data y Business Analytics
-    institution: Universidad de Deusto
-    year: 2018
+educacion:
+  cursos:
+  - curso: Lic. Economicas
+    institucion: Universidad del País Vasco
+    año: 2008
+  - curso: Lic. Aministración y Finanzas
+    institucion: Universidad del País Vasco
+    año: 2010
+  - curso: Mas. Big Data y Business Analytics
+    institucion: Universidad de Deusto
+    año: 2018
 
 # Social/Academic Networking
 # For available icons, see: https://sourcethemes.com/academic/docs/page-builder/#icons
@@ -69,6 +69,6 @@ user_groups:
 - Visitors
 ---
 
-Bienvenidos al cv-blog de Karlos, un sitio dedicado al analisis de datos economicos, estadistica y donde voy compartir proyectos con los que practico. Enseño como lo hago y los recursos que utilizo para ello, con el objetivo de documentar mi aprendizaje y compartir formación y conocimiento.
+Bienvenidos al cv-blog de Karlos, un sitio dedicado al analisis de datos economicos, estadistica y donde voy compartir diferentes proyectos. Enseño como lo hago y los recursos que utilizo, con el objetivo de documentar mi aprendizaje y compartir formación y conocimiento.
 
 Si te gusta probar nuevas tecnologias que te permiten mejorar como profesional, puedes contactar conmigo para preguntarme lo que necesites. En la parte de abajo esta mi contacto.
