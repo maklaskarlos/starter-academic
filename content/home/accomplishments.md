@@ -19,33 +19,43 @@ date_format = "Jan 2006"
 #   Begin/end multi-line descriptions with 3 quotes `"""`.
 
 [[item]]
-  organization = "Coursera"
-  organization_url = "https://www.coursera.org"
-  title = "Neural Networks and Deep Learning"
+  organization = "DataCamp"
+  organization_url = "https://www.datacamp.com"
+  title = "Certified Data Scientist"
   url = ""
-  certificate_url = "https://www.coursera.org"
-  date_start = "2018-10-01"
-  date_end = ""
+  certificate_url = "https://www.datacamp.com/statement-of-accomplishment/track/0d98620b2f605919ac627c5250ace3f79f0cac52"
+  date_start = "2019-06-01"
+  date_end = "2019-12-31"
   description = ""
 
 [[item]]
-  organization = "edX"
-  organization_url = "https://www.edx.org"
-  title = "Blockchain Fundamentals"
-  url = "https://www.edx.org/professional-certificate/uc-berkeleyx-blockchain-fundamentals"
-  certificate_url = "https://www.edx.org"
-  date_start = "2018-03-01"
-  date_end = ""
-  description = "Formulated informed blockchain models, hypotheses, and use cases."
-  
-[[item]]
-  organization = "DataCamp"
-  organization_url = "https://www.datacamp.com"
-  title = "Object-Oriented Programming in R: S3 and R6 Course"
+  organization = "Tableau"
+  organization_url = "https://www.tableau.com/"
+  title = "Tableau Desktop I: Fundamentals"
   url = ""
-  certificate_url = "https://www.datacamp.com"
-  date_start = "2017-07-01"
-  date_end = "2017-12-21"
+  certificate_url = "https://verify.skilljar.com/c/xvd2k9g6r39y"
+  date_start = "2019-06-01"
+  date_end = "2019-09-30"
+  description = ""
+
+[[item]]
+  organization = "Tableau"
+  organization_url = "https://www.tableau.com/"
+  title = "Tableau Desktop II: Intermediate"
+  url = ""
+  certificate_url = "https://verify.skilljar.com/c/kbunkoxsbypj"
+  date_start = "2019-09-01"
+  date_end = "2019-12-31"
+  description = ""
+
+[[item]]
+  organization = "Johns Hopkins University Data Science Laboratory"
+  organization_url = "https://jhudatascience.org/"
+  title = "The R Programming Environment"
+  url = ""
+  certificate_url = ""
+  date_start = "2018-10-01"
+  date_end = "2018-12-31"
   description = ""
 
 +++

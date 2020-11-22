@@ -5,32 +5,44 @@ headless = true  # This file represents a page section.
 active = true  # Activate this widget? true/false
 weight = 30  # Order that this section will appear.
 
-title = "Skills"
+title = "Materiales"
 subtitle = ""
 
 # Showcase personal skills or business features.
-# 
+#
 # Add/remove as many `[[feature]]` blocks below as you like.
-# 
+#
 # For available icons, see: https://sourcethemes.com/academic/docs/page-builder/#icons
 
 [[feature]]
   icon = "r-project"
   icon_pack = "fab"
   name = "R"
-  description = "90%"
-  
+  description = "Para la estadistica"
+
 [[feature]]
   icon = "chart-line"
   icon_pack = "fas"
-  name = "Statistics"
-  description = "100%"  
-  
+  name = "Economia"
+  description = "Analisis Datos economicos"
+
 [[feature]]
-  icon = "camera-retro"
-  icon_pack = "fas"
-  name = "Photography"
-  description = "10%"
+  icon = "open-data"
+  icon_pack = "ai"
+  name = "Datos Abiertos"
+  description = "Analisis datos abiertos"
+
+[[feature]]
+  icon = "fab"
+  icon_pack = "fab fa-microsoft"
+  name = "Microsoft"
+  description = "Power BI, CDS, Power Apps, Power Automate"
+
+[[feature]]
+  icon = "fab"
+  icon_pack = "fab fa-salesforce"
+  name = "Tableau"
+  description = "Graficos"
 
 # Uncomment to use emoji icons.
 # [[feature]]
