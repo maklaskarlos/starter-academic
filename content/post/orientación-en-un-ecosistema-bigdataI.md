@@ -3,19 +3,16 @@ title: Orientación en un ecosistema de datos I
 author: 'Karlos Garcia'
 date: '2019-11-20'
 slug: orientación-en-un-ecosistema-bigdata
-categories:
-  - R
-  - Microsoft
+categories: []
 tags:
   - asesoramiento
   - orientacion
   - datos
   - data
   - big data
-  - R
 ---
 
-**Antes de empezar aprender R conviene retroceder un poco, asentar algunas bases...** y para ello es muy importante plantearte si realmente conoces bien lo que Excel puede hacer por ti...
+**Aunque en el blog vaya hablar mucho sobre R** es importante plantearte si realmente conoces bien lo que Excel puede hacer por ti... 
 
 - **Tablas**
 - **Power Pivot**
@@ -25,7 +22,7 @@ tags:
 
 ¿Te suenan estas herramientas de Excel?
 
-Son funcionabilidades que te permiten profundizar en Microsoft Excel, y si actualmente estas trabajando con ellas, en mi opinión, vas por el buen camino. Estas soluciones son un gran avanze para la comunidad de Excel y tienen que ser aprovechadas.
+Son funcionabilidades que te permiten profundizar en Microsoft Excel, y si actualmente estas trabajando con ellas, en mi opinión, vas por el buen camino. Estas soluciones son un gran avanze para la comunidad de Excel y tiene que ser aprovechadas.
 
 **Podemos hacer Business Intilligence en Excel siempre y cuando el volumen de datos no sea muy grande**
 
