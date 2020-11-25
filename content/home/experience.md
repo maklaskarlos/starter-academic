@@ -36,16 +36,17 @@ date_format = "Jan 2006"
   date_start = "2019-01-01"
   date_end = ""
   description = """
+  Funciones:
   """
 
 [[experience]]
-  title = "Analista financiero"
-  company = "Stubhub"
+  title = "Analista Financiero"
+  company = "Stubhub - eBay"
   company_url = ""
   location = "Buenos Aires - Bilbao"
-  date_start = "2014-03-01"
-  date_end = "2018-12-31"
-  description = "ticketing marketplace""
+  date_start = "2014-01-01"
+  date_end = "2018-06-30"
+  description = """
   Funciones:
-  """
+    """
 +++
