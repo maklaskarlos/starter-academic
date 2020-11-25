@@ -26,10 +26,6 @@ date_format = "Jan 2006"
   date_end = ""
   description = """
   Funciones:
-
-  * Limpieza de datos
-  * Modelado
-  * Integracion
   """
 
 [[experience]]
@@ -49,11 +45,7 @@ date_format = "Jan 2006"
   location = "Buenos Aires - Bilbao"
   date_start = "2014-03-01"
   date_end = "2018-12-31"
-  description = """
+  description = "ticketing marketplace""
   Funciones:
-
-  * Analista de costes directos
-  * Market Place
-  * ecommerce
   """
 +++
