@@ -2,7 +2,7 @@
 title: Orientación en un ecosistema de datos II
 author: 'Karlos Garcia'
 date: '2020-11-20'
-slug: orientación-en-un-ecosistema-bigdata
+slug: orientación-en-un-ecosistema-bigdataII
 categories:
   - R
   - Microsoft
