@@ -2,7 +2,7 @@
 title: Orientación en un ecosistema de datos I
 author: 'Karlos Garcia'
 date: '2019-11-20'
-slug: orientación-en-un-ecosistema-bigdata
+slug: orientación-en-un-ecosistema-bigdataI
 categories: []
 tags:
   - asesoramiento
@@ -12,7 +12,7 @@ tags:
   - big data
 ---
 
-**Aunque en el blog vaya hablar mucho sobre R** es importante plantearte si realmente conoces bien lo que Excel puede hacer por ti... 
+**Aunque en el blog vaya hablar mucho sobre R** es importante plantearte si realmente conoces bien lo que Excel puede hacer por ti...
 
 - **Tablas**
 - **Power Pivot**
