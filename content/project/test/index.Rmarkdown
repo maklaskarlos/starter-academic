@@ -1,0 +1,203 @@
+---
+# Documentation: https://wowchemy.com/docs/managing-content/
+
+title: "Tipos de cambio"
+summary: ""
+authors: []
+tags: []
+categories: []
+date: 2020-11-28T21:20:55+01:00
+
+# Optional external URL for project (replaces project detail page).
+external_link: ""
+
+# Featured image
+# To use, add an image named `featured.jpg/png` to your page's folder.
+# Focal points: Smart, Center, TopLeft, Top, TopRight, Left, Right, BottomLeft, Bottom, BottomRight.
+image:
+  caption: ""
+  focal_point: "Top"
+  preview_only: false
+
+# Custom links (optional).
+#   Uncomment and edit lines below to show custom links.
+# links:
+# - name: Follow
+#   url: https://twitter.com
+#   icon_pack: fab
+#   icon: twitter
+
+url_code: ""
+url_pdf: ""
+url_slides: ""
+url_video: ""
+
+# Slides (optional).
+#   Associate this project with Markdown slides.
+#   Simply enter your slide deck's filename without extension.
+#   E.g. `slides = "example-slides"` references `content/slides/example-slides.md`.
+#   Otherwise, set `slides = ""`.
+slides: ""
+---
+
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(collapse = TRUE)
+```
+
+En empresas internacionales es muy comun trabajar con divisas, pero cuando consolidas resultados contables lo haces con una moneda unica. Las divisas fluctuan y con el paso del tiempo pueden generar alteraciones en el balance, y por eso es muy importante tener un control sobre ellas.
+
+Con R puedes generar una fuente de datos ecoconómicos donde tener controladas las fluctuaciones diarias, por horas o por minutos de cada una de las monedas con las que operas.
+
+Entre las librerias mas utilizas para consultar datos económicos estan **quantmod** o **Quandl**.
+
+```{r librerias, message=FALSE, warning=FALSE, echo = TRUE}
+library(quantmod)
+library(Quandl)
+```
+
+```{r librerias I, message=FALSE, warning=FALSE, echo = FALSE}
+library(tidyverse)
+library(kableExtra)
+```
+
+La función **getSymbols()** de la libreria **quantmod** permite capturar datos economicos de **distintas fuentes en internet**. Convierte el simbolo EUR/USD (donde EUR es la divisa base y el USD su cotización) a un simbolo valido para la extracción: **EURUSD**.
+
+
+https://finance.yahoo.com/?guccounter=1
+
+https://www.alphavantage.co/
+
+https://fred.stlouisfed.org/
+
+https://www.oanda.com/rw-en/
+
+Cada fuente tiene sus particularidades, **Oanda.com** por ejemplo solo proporciona datos historicos de 180 días, aunque siempre se puede modificar el argumento de la función (from - to).
+
+Con **quandl()** puedo extraer la cotización del USD del **Banco Central Europeo (BCE)**, generar un CSV e incorporar las cotizaciones al modelo de datos sobre el cual hacemos business intelligence (mas adelante hablare sobre esto).
+
+```{r getsymbolsIX, message=FALSE, warning=FALSE, echo = FALSE}
+# APY KEY para no tener restricciones
+Quandl.api_key("KRyskEozdYNyzeRxwXr2")
+```
+
+```{r getsymbolsX, message=FALSE, warning=FALSE, echo = TRUE}
+# Import EURUSD data from BCE
+eurusd<-Quandl(code="ECB/EURUSD")
+```
+
+```{r getsymbolsXI, message=FALSE, warning=FALSE, echo = FALSE}
+# Look at the structure of EURUSD
+head(eurusd)%>%
+  knitr::kable()%>%
+  kable_styling(bootstrap_options = "striped", font_size = 14)
+```
+
+Veamos **un ejemplo** con transacciones de una empresa que opera en diferentes paises. Las cinco primeras transacciones de las tabla han sido en euros, pero tambíen existen pesos mexicanos, pesos argentinos, chilenos...
+
+Los campos:
+
+- **journey_id**
+- **created_at**
+- **currency**
+- **price_base**
+- **cost_base**
+
+```{r proyecto, message=FALSE, warning=FALSE, echo = FALSE}
+library(readr)
+datos <- read_csv("C:/Users/karlo/OneDrive/Escritorio/Practicas_Karlos/Proyecto CABIFY/datos.csv")
+```
+
+```{r proyectoI, message=FALSE, warning=FALSE, echo = FALSE}
+head(datos)%>%
+  knitr::kable()%>%
+  kable_styling(bootstrap_options = "striped", font_size = 14)
+```
+
+```{r proyectoI0, message=FALSE, warning=FALSE, echo = FALSE}
+tail(datos)%>%
+  knitr::kable()%>%
+  kable_styling(bootstrap_options = "striped", font_size = 14)
+```
+
+A continuación dejo el codigo que utilizado para poder llegar a otra tabla con los siguientes campos:
+
+- **journey_id**
+- **created_at**
+- **currency**
+- **price_base**
+- **cost_base**
+- **price_base_EUR**
+- **cost_base_EUR**
+
+
+**yahoo** y **getSymbols()** del paquete **quatmond** para extraer las cotizaciones. Asegurarse de tener Internet al ejecutar este codigo.
+
+```{r proyectoII, message=FALSE, warning=FALSE, echo = TRUE}
+library(lubridate)
+library(reshape)
+
+currDF  <- data.frame(
+  date = seq.Date(from = as.Date('2017-01-03 13:20:24'), to = as.Date('2017-12-30 09:54:08'), length = 52645),
+  variable = datos$currency,
+  amount = datos$price_base,stringsAsFactors=FALSE)
+
+
+currDF = currDF %>% mutate(aniomes = paste(year(date),month(date)))
+
+currDF$divisaaniomes<-paste(currDF$variable,currDF$aniomes)
+```
+
+```{r proyectoIV, message=FALSE, warning=FALSE, echo = TRUE}
+#tipos de cambio historicos de 2017
+startDt = as.Date("2017-01-03 13:20:24")
+endDt = as.Date("2017-12-30 09:54:08")
+currCombinations = paste(setdiff(unique(currDF$variable),"EUR"),"EUR=X",sep="")
+```
+
+```{r proyectoV, message=FALSE, warning=FALSE, echo = TRUE}
+fxData = do.call(merge.xts,lapply(currCombinations,function(x)
+  getSymbols.yahoo(x, src="yahoo", from=startDt,to=endDt,auto.assign=FALSE)[,4])) #make sure you have internet
+colnames(fxData) = gsub("EUR.X.Close","",colnames(fxData))
+fxData$EUR = 1
+```
+
+Para reportar estos resultados mensualmente, conviene utilizar la media de las cotizaciones mensuales de cada divisa con la que operamos: **tipo de cambio medio de cada mes y de cada divisa**. Podría darse el caso en el que me pidiese reportar resultados diariamente, por horas e incluso por minutos.
+
+```{r proyectoVI, message=FALSE, warning=FALSE, echo = TRUE}
+fxData_DF = data.frame(date=index(fxData),coredata(fxData),stringsAsFactors=FALSE)
+fxMolten = melt(fxData_DF,id="date",variable.name="currency",value.name="conversionFactor")
+```
+
+```{r proyectoVII, message=FALSE, warning=FALSE, echo = TRUE}
+#creamos la columna aniomes para poder calcular el tipo de cambio medio de cada mes
+fxMolten = fxMolten %>% mutate(aniomes = paste(year(date),month(date)))
+
+fxMolten %>% group_by(aniomes, variable) %>% summarise(amountmedia = mean(value))
+#eliminamos NAs
+fxMolten<-fxMolten[complete.cases(fxMolten), ] #desaparecen algunas lineas
+fxMolten %>% group_by(aniomes, variable) %>% summarise(amountmedia = mean(value))
+#creamos la columna divisaaniomes para poder calcular el tipo de cambio medio de cada mes
+fxMolten$divisaaniomes<-paste(fxMolten$variable,fxMolten$aniomes)
+tipocamiomedio= fxMolten %>% group_by(divisaaniomes, variable) %>% summarise(amountmedia = mean(value))
+#mergeamos con datoscabify
+datos = datos %>% mutate(aniomes = paste(year(created_at),month(created_at)))
+datos$divisaaniomes<-paste(datos$currency,datos$aniomes)
+datosdivisa = merge(datos,tipocamiomedio, by= "divisaaniomes")
+#hacemos la conversion de nuestras variables economicas
+datosdivisa$price_base_EUR<-datosdivisa$price_base*datosdivisa$amountmedia
+datosdivisa$cost_base_EUR<-datosdivisa$cost_base*datosdivisa$amountmedia
+```
+
+```{r proyectoVIII, message=FALSE, warning=FALSE, echo = TRUE}
+datosdivisa = datosdivisa[,c("journey_id","created_at","currency","price_base","cost_base","price_base_EUR","cost_base_EUR")]
+#visualizo nuestra nueva tabla
+head(datosdivisa)%>%
+  knitr::kable()%>%
+  kable_styling(bootstrap_options = "striped", font_size = 14)
+```
+
+Si estuvieramos analizando la posición de la compañia en un momento concreto del año **balance**, lo ideal sería utilizar la cotización de las divisas en ese momento.Por ejemplo, a finales de Noviembre de 2017 el peso argentino estaba a 20,54 pesos con respecto al eur. Hoy en día el peso argentino esta disparado a 66,65 eur. Las empresas que estan expuestas en Argentina habran visto como sus activos en pesos argentinos se deprecian.
+
+**Automatizar este proceso para nuestro proyecto de Business Intillegence**.
+
+Crear **tablas_lookup** para cada una de las divisas con las que este operando la empresa (tabla_lookup_usd, tabla_lookup_gbp, tabla_lookup_ars...), relacionarlas con la **tabla transaccional** en el **modelo de datos** y utilizar el lenguahe **DAX - Data Analysis Expressions**) para introducir calculos y obtener los datos como deseamos. ¿en tiempo real? Por que no...
