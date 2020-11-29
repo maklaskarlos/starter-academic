@@ -58,6 +58,7 @@ library(Quandl)
 ```{r librerias I, message=FALSE, warning=FALSE, echo = FALSE}
 library(tidyverse)
 library(kableExtra)
+library(lubridate)
 ```
 
 La función **getSymbols()** de la libreria **quantmod** permite capturar datos economicos de **distintas fuentes en internet**. Convierte el simbolo EUR/USD (donde EUR es la divisa base y el USD su cotización) a un simbolo valido para la extracción: **EURUSD**.
@@ -71,9 +72,9 @@ https://fred.stlouisfed.org/
 
 https://www.oanda.com/rw-en/
 
-Cada fuente tiene sus particularidades, **Oanda.com** por ejemplo solo proporciona datos historicos de 180 días, aunque siempre se puede modificar el argumento de la función (from - to).
+Cada fuente tiene sus particularidades, **Oanda.com** proporciona datos historicos de 180 días, aunque siempre se puede modificar el argumento de la función (from - to) e ir acumulando datos.
 
-Con **quandl()** puedo extraer la cotización del USD del **Banco Central Europeo (BCE)**, generar un CSV e incorporar las cotizaciones al modelo de datos sobre el cual hacemos business intelligence (mas adelante hablare sobre esto).
+Con **quandl()** se puede extraer la cotización del dollar en el **Banco Central Europeo (BCE)** y generar un CSV.
 
 ```{r getsymbolsIX, message=FALSE, warning=FALSE, echo = FALSE}
 # APY KEY para no tener restricciones
@@ -92,9 +93,9 @@ head(eurusd)%>%
   kable_styling(bootstrap_options = "striped", font_size = 14)
 ```
 
-Veamos **un ejemplo** con transacciones de una empresa que opera en diferentes paises. Las cinco primeras transacciones de las tabla han sido en euros, pero tambíen existen pesos mexicanos, pesos argentinos, chilenos...
+**Ejemplo** con 52.646 transacciones de una empresa que se dedica al transporte de pasajaeros y que opera en diferentes ciudades del mundo: En euros, pesos mexicanos, pesos argentinos, chilenos...
 
-Los campos:
+He seleccionado los siguientes campos para continuar en con el ejemplo:
 
 - **journey_id**
 - **created_at**
@@ -119,18 +120,28 @@ tail(datos)%>%
   kable_styling(bootstrap_options = "striped", font_size = 14)
 ```
 
-A continuación dejo el codigo que utilizado para poder llegar a otra tabla con los siguientes campos:
+Exploro los datos de las ventas con las divisas
 
-- **journey_id**
-- **created_at**
-- **currency**
-- **price_base**
-- **cost_base**
-- **price_base_EUR**
-- **cost_base_EUR**
+```{r proyectoI0I, message=FALSE, warning=FALSE, echo = FALSE}
+str(datos$created_at)
 
+datos$month <- as.factor(months(as.Date(datos$created_at, "%Y/%m/%d",tz="UTC")))
 
-**yahoo** y **getSymbols()** del paquete **quatmond** para extraer las cotizaciones. Asegurarse de tener Internet al ejecutar este codigo.
+datos$price_base[is.na(datos$price_base)] <- 0
+
+datos %>%
+    # grouping by year and summarizing sales
+    group_by(month) %>%
+    summarize(sales = sum(price_base)) %>%
+    ungroup() %>%
+    knitr::kable()%>%
+    kable_styling(bootstrap_options = "striped", font_size = 14)
+
+```
+
+Si calculas los ventas de esta manera lo estamos haciendo mal, por que estamos mezclando las distintas divisas con las que la compañia opera. Tenemos que pasar todo a €
+
+A traves de **yahoo** y la función **getSymbols()** extraemos las cotizaciones. Asegurarse de tener Internet al ejecutar este codigo.
 
 ```{r proyectoII, message=FALSE, warning=FALSE, echo = TRUE}
 library(lubridate)
@@ -161,7 +172,7 @@ colnames(fxData) = gsub("EUR.X.Close","",colnames(fxData))
 fxData$EUR = 1
 ```
 
-Para reportar estos resultados mensualmente, conviene utilizar la media de las cotizaciones mensuales de cada divisa con la que operamos: **tipo de cambio medio de cada mes y de cada divisa**. Podría darse el caso en el que me pidiese reportar resultados diariamente, por horas e incluso por minutos.
+Para reportar estos resultados mensualmente, vamos a utilizar la media de las cotizaciones de cada divisa **tipo de cambio medio de cada mes y de cada divisa**.
 
 ```{r proyectoVI, message=FALSE, warning=FALSE, echo = TRUE}
 fxData_DF = data.frame(date=index(fxData),coredata(fxData),stringsAsFactors=FALSE)
@@ -196,8 +207,21 @@ head(datosdivisa)%>%
   kable_styling(bootstrap_options = "striped", font_size = 14)
 ```
 
-Si estuvieramos analizando la posición de la compañia en un momento concreto del año **balance**, lo ideal sería utilizar la cotización de las divisas en ese momento.Por ejemplo, a finales de Noviembre de 2017 el peso argentino estaba a 20,54 pesos con respecto al eur. Hoy en día el peso argentino esta disparado a 66,65 eur. Las empresas que estan expuestas en Argentina habran visto como sus activos en pesos argentinos se deprecian.
+Ahora que tenemos los datos en euros, vuelvo agrupar los resultados de las ventas por mes
 
-**Automatizar este proceso para nuestro proyecto de Business Intillegence**.
+```{r proyectoVIIII, message=FALSE, warning=FALSE, echo = TRUE}
+str(datosdivisa$created_at)
 
-Crear **tablas_lookup** para cada una de las divisas con las que este operando la empresa (tabla_lookup_usd, tabla_lookup_gbp, tabla_lookup_ars...), relacionarlas con la **tabla transaccional** en el **modelo de datos** y utilizar el lenguahe **DAX - Data Analysis Expressions**) para introducir calculos y obtener los datos como deseamos. ¿en tiempo real? Por que no...
+datosdivisa$month <- as.factor(months(as.Date(datosdivisa$created_at, "%Y/%m/%d",tz="UTC")))
+
+datosdivisa$price_base_EUR[is.na(datosdivisa$price_base_EUR)] <- 0
+
+datosdivisa %>%
+    # group by year and summarizing sales
+    group_by(month) %>%
+    summarize(sales = sum(price_base_EUR)) %>%
+    ungroup() %>%
+    knitr::kable()%>%
+    kable_styling(bootstrap_options = "striped", font_size = 14)
+
+```
