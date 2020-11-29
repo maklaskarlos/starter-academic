@@ -47,6 +47,10 @@ slides: ""
 <link href="{{< relref "project/test/index.markdown" >}}index_files/lightable-0.0.1/lightable.css" rel="stylesheet" />
 <script src="{{< relref "project/test/index.markdown" >}}index_files/kePrint-0.0.1/kePrint.js"></script>
 <link href="{{< relref "project/test/index.markdown" >}}index_files/lightable-0.0.1/lightable.css" rel="stylesheet" />
+<script src="{{< relref "project/test/index.markdown" >}}index_files/kePrint-0.0.1/kePrint.js"></script>
+<link href="{{< relref "project/test/index.markdown" >}}index_files/lightable-0.0.1/lightable.css" rel="stylesheet" />
+<script src="{{< relref "project/test/index.markdown" >}}index_files/kePrint-0.0.1/kePrint.js"></script>
+<link href="{{< relref "project/test/index.markdown" >}}index_files/lightable-0.0.1/lightable.css" rel="stylesheet" />
 
 
 
@@ -75,9 +79,9 @@ https://fred.stlouisfed.org/
 
 https://www.oanda.com/rw-en/
 
-Cada fuente tiene sus particularidades, **Oanda.com** por ejemplo solo proporciona datos historicos de 180 días, aunque siempre se puede modificar el argumento de la función (from - to).
+Cada fuente tiene sus particularidades, **Oanda.com** proporciona datos historicos de 180 días, aunque siempre se puede modificar el argumento de la función (from - to) e ir acumulando datos.
 
-Con **quandl()** puedo extraer la cotización del USD del **Banco Central Europeo (BCE)**, generar un CSV e incorporar las cotizaciones al modelo de datos sobre el cual hacemos business intelligence (mas adelante hablare sobre esto).
+Con **quandl()** se puede extraer la cotización del dollar en el **Banco Central Europeo (BCE)** y generar un CSV.
 
 
 
@@ -122,9 +126,9 @@ eurusd<-Quandl(code="ECB/EURUSD")
 </tbody>
 </table>
 
-Veamos **un ejemplo** con transacciones de una empresa que opera en diferentes paises. Las cinco primeras transacciones de las tabla han sido en euros, pero tambíen existen pesos mexicanos, pesos argentinos, chilenos...
+**Ejemplo** con 52.646 transacciones de una empresa que se dedica al transporte de pasajaeros y que opera en diferentes ciudades del mundo: En euros, pesos mexicanos, pesos argentinos, chilenos...
 
-Los campos:
+He seleccionado los siguientes campos para continuar en con el ejemplo:
 
 - **journey_id**
 - **created_at**
@@ -246,18 +250,75 @@ Los campos:
 </tbody>
 </table>
 
-A continuación dejo el codigo que utilizado para poder llegar a otra tabla con los siguientes campos:
-
-- **journey_id**
-- **created_at**
-- **currency**
-- **price_base**
-- **cost_base**
-- **price_base_EUR**
-- **cost_base_EUR**
+Exploro los datos de las ventas con las divisas
 
 
-**yahoo** y **getSymbols()** del paquete **quatmond** para extraer las cotizaciones. Asegurarse de tener Internet al ejecutar este codigo.
+```
+##  POSIXct[1:52645], format: "2017-12-17 00:20:33" "2017-11-24 06:39:45" "2017-11-29 20:57:36" ...
+```
+
+<table class="table table-striped" style="font-size: 14px; margin-left: auto; margin-right: auto;">
+ <thead>
+  <tr>
+   <th style="text-align:left;"> month </th>
+   <th style="text-align:right;"> sales </th>
+  </tr>
+ </thead>
+<tbody>
+  <tr>
+   <td style="text-align:left;"> abril </td>
+   <td style="text-align:right;"> 403777.04 </td>
+  </tr>
+  <tr>
+   <td style="text-align:left;"> agosto </td>
+   <td style="text-align:right;"> 64653.74 </td>
+  </tr>
+  <tr>
+   <td style="text-align:left;"> diciembre </td>
+   <td style="text-align:right;"> 98649.10 </td>
+  </tr>
+  <tr>
+   <td style="text-align:left;"> enero </td>
+   <td style="text-align:right;"> 21475.25 </td>
+  </tr>
+  <tr>
+   <td style="text-align:left;"> febrero </td>
+   <td style="text-align:right;"> 141537.79 </td>
+  </tr>
+  <tr>
+   <td style="text-align:left;"> julio </td>
+   <td style="text-align:right;"> 126498.25 </td>
+  </tr>
+  <tr>
+   <td style="text-align:left;"> junio </td>
+   <td style="text-align:right;"> 307498.03 </td>
+  </tr>
+  <tr>
+   <td style="text-align:left;"> marzo </td>
+   <td style="text-align:right;"> 125409.79 </td>
+  </tr>
+  <tr>
+   <td style="text-align:left;"> mayo </td>
+   <td style="text-align:right;"> 404743.87 </td>
+  </tr>
+  <tr>
+   <td style="text-align:left;"> noviembre </td>
+   <td style="text-align:right;"> 140369.43 </td>
+  </tr>
+  <tr>
+   <td style="text-align:left;"> octubre </td>
+   <td style="text-align:right;"> 185126.07 </td>
+  </tr>
+  <tr>
+   <td style="text-align:left;"> septiembre </td>
+   <td style="text-align:right;"> 159458.37 </td>
+  </tr>
+</tbody>
+</table>
+
+No estamos calculando correctamente las ventas, se estan mezclando distintas divisas. Nuestro objetivo es tenerlas en €
+
+A traves de **yahoo** y la función **getSymbols()** extraemos las cotizaciones. Asegurarse de tener Internet al ejecutar este codigo.
 
 
 ```r
@@ -291,7 +352,7 @@ colnames(fxData) = gsub("EUR.X.Close","",colnames(fxData))
 fxData$EUR = 1
 ```
 
-Para reportar estos resultados mensualmente, conviene utilizar la media de las cotizaciones mensuales de cada divisa con la que operamos: **tipo de cambio medio de cada mes y de cada divisa**. Podría darse el caso en el que me pidiese reportar resultados diariamente, por horas e incluso por minutos.
+Para reportar estos resultados mensualmente, vamos a utilizar la media de las cotizaciones de cada divisa **tipo de cambio medio de cada mes y de cada divisa**.
 
 
 ```r
@@ -429,8 +490,81 @@ head(datosdivisa)%>%
 </tbody>
 </table>
 
-Si estuvieramos analizando la posición de la compañia en un momento concreto del año **balance**, lo ideal sería utilizar la cotización de las divisas en ese momento.Por ejemplo, a finales de Noviembre de 2017 el peso argentino estaba a 20,54 pesos con respecto al eur. Hoy en día el peso argentino esta disparado a 66,65 eur. Las empresas que estan expuestas en Argentina habran visto como sus activos en pesos argentinos se deprecian.
+Ahora que tenemos los datos en euros, vuelvo agrupar los resultados de las ventas por mes
 
-**Automatizar este proceso para nuestro proyecto de Business Intillegence**.
 
-Crear **tablas_lookup** para cada una de las divisas con las que este operando la empresa (tabla_lookup_usd, tabla_lookup_gbp, tabla_lookup_ars...), relacionarlas con la **tabla transaccional** en el **modelo de datos** y utilizar el lenguahe **DAX - Data Analysis Expressions**) para introducir calculos y obtener los datos como deseamos. ¿en tiempo real? Por que no...
+```r
+str(datosdivisa$created_at)
+##  POSIXct[1:52260], format: "2017-11-27 18:02:10" "2017-11-27 00:46:00" "2017-02-28 16:46:05" ...
+
+datosdivisa$month <- as.factor(months(as.Date(datosdivisa$created_at, "%Y/%m/%d",tz="UTC")))
+
+datosdivisa$price_base_EUR[is.na(datosdivisa$price_base_EUR)] <- 0
+
+datosdivisa %>%
+    # group by year and summarizing sales
+    group_by(month) %>%
+    summarize(sales = sum(price_base_EUR)) %>%
+    ungroup() %>%
+    knitr::kable()%>%
+    kable_styling(bootstrap_options = "striped", font_size = 14)
+```
+
+<table class="table table-striped" style="font-size: 14px; margin-left: auto; margin-right: auto;">
+ <thead>
+  <tr>
+   <th style="text-align:left;"> month </th>
+   <th style="text-align:right;"> sales </th>
+  </tr>
+ </thead>
+<tbody>
+  <tr>
+   <td style="text-align:left;"> abril </td>
+   <td style="text-align:right;"> 67016.56 </td>
+  </tr>
+  <tr>
+   <td style="text-align:left;"> agosto </td>
+   <td style="text-align:right;"> 41613.92 </td>
+  </tr>
+  <tr>
+   <td style="text-align:left;"> diciembre </td>
+   <td style="text-align:right;"> 92589.94 </td>
+  </tr>
+  <tr>
+   <td style="text-align:left;"> enero </td>
+   <td style="text-align:right;"> 19962.52 </td>
+  </tr>
+  <tr>
+   <td style="text-align:left;"> febrero </td>
+   <td style="text-align:right;"> 69546.10 </td>
+  </tr>
+  <tr>
+   <td style="text-align:left;"> julio </td>
+   <td style="text-align:right;"> 101327.39 </td>
+  </tr>
+  <tr>
+   <td style="text-align:left;"> junio </td>
+   <td style="text-align:right;"> 103503.54 </td>
+  </tr>
+  <tr>
+   <td style="text-align:left;"> marzo </td>
+   <td style="text-align:right;"> 92416.37 </td>
+  </tr>
+  <tr>
+   <td style="text-align:left;"> mayo </td>
+   <td style="text-align:right;"> 90503.38 </td>
+  </tr>
+  <tr>
+   <td style="text-align:left;"> noviembre </td>
+   <td style="text-align:right;"> 118380.35 </td>
+  </tr>
+  <tr>
+   <td style="text-align:left;"> octubre </td>
+   <td style="text-align:right;"> 119723.05 </td>
+  </tr>
+  <tr>
+   <td style="text-align:left;"> septiembre </td>
+   <td style="text-align:right;"> 99612.91 </td>
+  </tr>
+</tbody>
+</table>

@@ -139,7 +139,7 @@ datos %>%
 
 ```
 
-Si calculas los ventas de esta manera lo estamos haciendo mal, por que estamos mezclando las distintas divisas con las que la compañia opera. Tenemos que pasar todo a €
+No estamos calculando correctamente las ventas, se estan mezclando distintas divisas. Nuestro objetivo es tenerlas en €
 
 A traves de **yahoo** y la función **getSymbols()** extraemos las cotizaciones. Asegurarse de tener Internet al ejecutar este codigo.
 
