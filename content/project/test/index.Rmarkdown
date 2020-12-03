@@ -1,7 +1,7 @@
 ---
 # Documentation: https://wowchemy.com/docs/managing-content/
 
-title: "Tipos de cambio"
+title: "Reporting de ventas con R"
 summary: ""
 authors: []
 tags: []
@@ -40,29 +40,28 @@ url_video: ""
 slides: ""
 ---
 
+Para un economista es importante tener acceso a datos economicos de forma rapida y sencilla que permitan tomar decisiones en base a datos analizados. Las librerias de R que permiten hacer este tipo consultas son: **quantmod** y **Quandl**
+
 ```{r setup, include=FALSE}
 knitr::opts_chunk$set(collapse = TRUE)
 ```
-
-En empresas internacionales es muy comun trabajar con divisas, pero cuando consolidas resultados contables lo haces con una moneda unica. Las divisas fluctuan y con el paso del tiempo pueden generar alteraciones en el balance, y por eso es muy importante tener un control sobre ellas.
-
-Con R puedes generar una fuente de datos ecoconómicos donde tener controladas las fluctuaciones diarias, por horas o por minutos de cada una de las monedas con las que operas.
-
-Entre las librerias mas utilizas para consultar datos económicos estan **quantmod** o **Quandl**.
 
 ```{r librerias, message=FALSE, warning=FALSE, echo = TRUE}
 library(quantmod)
 library(Quandl)
 ```
 
-```{r librerias I, message=FALSE, warning=FALSE, echo = FALSE}
+```{r librerias I, message=FALSE, warning=FALSE, echo = TRUE}
 library(tidyverse)
 library(kableExtra)
 library(lubridate)
+library(ggplot2)
+library(tidyquant)
 ```
 
-La función **getSymbols()** de la libreria **quantmod** permite capturar datos economicos de **distintas fuentes en internet**. Convierte el simbolo EUR/USD (donde EUR es la divisa base y el USD su cotización) a un simbolo valido para la extracción: **EURUSD**.
+La función **getSymbols()** de la libreria **quantmod** permite consultar datos economicos de **distintas fuentes**. 
 
+Cada fuente tiene sus particularidades, **Oanda.com** por ejemplo, proporciona datos historicos de 180 días, ¡aunque siempre se puede modificar el argumento de la función (from - to)!
 
 https://finance.yahoo.com/?guccounter=1
 
@@ -72,9 +71,8 @@ https://fred.stlouisfed.org/
 
 https://www.oanda.com/rw-en/
 
-Cada fuente tiene sus particularidades, **Oanda.com** proporciona datos historicos de 180 días, aunque siempre se puede modificar el argumento de la función (from - to) e ir acumulando datos.
 
-Con **quandl()** se puede extraer la cotización del dollar en el **Banco Central Europeo (BCE)** y generar un CSV.
+Vamos a llamar a la API del  **Banco Central Europeo (BCE)** a traves del paquete de R **quandl()** para extraer la cotización del dollar con respecto al euro:
 
 ```{r getsymbolsIX, message=FALSE, warning=FALSE, echo = FALSE}
 # APY KEY para no tener restricciones
@@ -86,6 +84,8 @@ Quandl.api_key("KRyskEozdYNyzeRxwXr2")
 eurusd<-Quandl(code="ECB/EURUSD")
 ```
 
+El resultado que nos proporciona es el siguiente:
+
 ```{r getsymbolsXI, message=FALSE, warning=FALSE, echo = FALSE}
 # Look at the structure of EURUSD
 head(eurusd)%>%
@@ -93,15 +93,9 @@ head(eurusd)%>%
   kable_styling(bootstrap_options = "striped", font_size = 14)
 ```
 
-**Ejemplo** con 52.646 transacciones de una empresa que se dedica al transporte de pasajaeros y que opera en diferentes ciudades del mundo: En euros, pesos mexicanos, pesos argentinos, chilenos...
+En empresas internacionales es comun operar con diferentes divisas y consolidar resultados en una moneda unica. 
 
-He seleccionado los siguientes campos para continuar en con el ejemplo:
-
-- **journey_id**
-- **created_at**
-- **currency**
-- **price_base**
-- **cost_base**
+Vamos a intentar automatizar este proceso con R y para ello tengo un **ejemplo** con 52.646 transacciones de una empresa que se dedica al transporte de pasajaeros urbanos y que opera en diferentes ciudades del mundo: Con euros, pesos mexicanos, pesos argentinos, chilenos..,
 
 ```{r proyecto, message=FALSE, warning=FALSE, echo = FALSE}
 library(readr)
@@ -109,21 +103,22 @@ datos <- read_csv("C:/Users/karlo/OneDrive/Escritorio/Practicas_Karlos/Proyecto 
 ```
 
 ```{r proyectoI, message=FALSE, warning=FALSE, echo = FALSE}
+unique(datos$currency)
+```
+
+**Objetivo del analisis : analizar las ventas totales de las empresa en Euros y por mes**
+
+Los datos que estamos explorando contienen mas variables de las que he seleccionado...
+
+```{r proyectoI0, message=FALSE, warning=FALSE, echo = FALSE}
 head(datos)%>%
   knitr::kable()%>%
   kable_styling(bootstrap_options = "striped", font_size = 14)
 ```
 
-```{r proyectoI0, message=FALSE, warning=FALSE, echo = FALSE}
-tail(datos)%>%
-  knitr::kable()%>%
-  kable_styling(bootstrap_options = "striped", font_size = 14)
-```
-
-Exploro los datos de las ventas con las divisas
+Agrupamos las ventas de la compañia por mes...
 
 ```{r proyectoI0I, message=FALSE, warning=FALSE, echo = FALSE}
-str(datos$created_at)
 
 datos$month <- as.factor(months(as.Date(datos$created_at, "%Y/%m/%d",tz="UTC")))
 
@@ -139,9 +134,11 @@ datos %>%
 
 ```
 
-No estamos calculando correctamente las ventas, se estan mezclando distintas divisas. Nuestro objetivo es tenerlas en €
+... pero no es lo correcto por que estamos mezclando diferentes divisas.
 
-A traves de **yahoo** y la función **getSymbols()** extraemos las cotizaciones. Asegurarse de tener Internet al ejecutar este codigo.
+Aquí es donde viene lo importante de este proyecto...os detallo lo que vamos hacer paso por paso: 
+
+1) Preparamos una tabla de fechas
 
 ```{r proyectoII, message=FALSE, warning=FALSE, echo = TRUE}
 library(lubridate)
@@ -158,12 +155,18 @@ currDF = currDF %>% mutate(aniomes = paste(year(date),month(date)))
 currDF$divisaaniomes<-paste(currDF$variable,currDF$aniomes)
 ```
 
+2) Los datos que tenemos son del 2017, marcamos los limites y el formato de los datos
+
 ```{r proyectoIV, message=FALSE, warning=FALSE, echo = TRUE}
 #tipos de cambio historicos de 2017
 startDt = as.Date("2017-01-03 13:20:24")
 endDt = as.Date("2017-12-30 09:54:08")
 currCombinations = paste(setdiff(unique(currDF$variable),"EUR"),"EUR=X",sep="")
 ```
+
+3) Extraemos la cotiación de las divisas desde **yahoo** con la función **getSymbols()**. Y alimentamos la tabla. 
+
+Asegurarse de tener Internet al ejecutar este codigo.
 
 ```{r proyectoV, message=FALSE, warning=FALSE, echo = TRUE}
 fxData = do.call(merge.xts,lapply(currCombinations,function(x)
@@ -172,14 +175,12 @@ colnames(fxData) = gsub("EUR.X.Close","",colnames(fxData))
 fxData$EUR = 1
 ```
 
-Para reportar estos resultados mensualmente, vamos a utilizar la media de las cotizaciones de cada divisa **tipo de cambio medio de cada mes y de cada divisa**.
+4) Calculamos la media de la cotización de cada divisa durante cada mez: **tipo de cambio medio de cada mes y de cada divisa**. (¡ojo! si el reporting es **anual**, podemos modificar la formula)
 
 ```{r proyectoVI, message=FALSE, warning=FALSE, echo = TRUE}
 fxData_DF = data.frame(date=index(fxData),coredata(fxData),stringsAsFactors=FALSE)
 fxMolten = melt(fxData_DF,id="date",variable.name="currency",value.name="conversionFactor")
-```
 
-```{r proyectoVII, message=FALSE, warning=FALSE, echo = TRUE}
 #creamos la columna aniomes para poder calcular el tipo de cambio medio de cada mes
 fxMolten = fxMolten %>% mutate(aniomes = paste(year(date),month(date)))
 
@@ -197,19 +198,22 @@ datosdivisa = merge(datos,tipocamiomedio, by= "divisaaniomes")
 #hacemos la conversion de nuestras variables economicas
 datosdivisa$price_base_EUR<-datosdivisa$price_base*datosdivisa$amountmedia
 datosdivisa$cost_base_EUR<-datosdivisa$cost_base*datosdivisa$amountmedia
+
 ```
 
-```{r proyectoVIII, message=FALSE, warning=FALSE, echo = TRUE}
+5) Incorporamos las columnas de coste y facturación en euros
+
+```{r proyectoVIII, message=FALSE, warning=FALSE, echo = FALSE}
 datosdivisa = datosdivisa[,c("journey_id","created_at","currency","price_base","cost_base","price_base_EUR","cost_base_EUR")]
 #visualizo nuestra nueva tabla
-head(datosdivisa)%>%
+tail(datosdivisa)%>%
   knitr::kable()%>%
   kable_styling(bootstrap_options = "striped", font_size = 14)
 ```
 
 Ahora que tenemos los datos en euros, vuelvo agrupar los resultados de las ventas por mes
 
-```{r proyectoVIIII, message=FALSE, warning=FALSE, echo = TRUE}
+```{r proyectoVIIII, message=FALSE, warning=FALSE, echo = FALSE}
 str(datosdivisa$created_at)
 
 datosdivisa$month <- as.factor(months(as.Date(datosdivisa$created_at, "%Y/%m/%d",tz="UTC")))
@@ -225,3 +229,6 @@ datosdivisa %>%
     kable_styling(bootstrap_options = "striped", font_size = 14)
 
 ```
+
+Y podría dibujar un grafico:
+

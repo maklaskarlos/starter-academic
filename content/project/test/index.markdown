@@ -1,7 +1,7 @@
 ---
 # Documentation: https://wowchemy.com/docs/managing-content/
 
-title: "Tipos de cambio"
+title: "Reporting de ventas con R"
 summary: ""
 authors: []
 tags: []
@@ -49,16 +49,10 @@ slides: ""
 <link href="{{< relref "project/test/index.markdown" >}}index_files/lightable-0.0.1/lightable.css" rel="stylesheet" />
 <script src="{{< relref "project/test/index.markdown" >}}index_files/kePrint-0.0.1/kePrint.js"></script>
 <link href="{{< relref "project/test/index.markdown" >}}index_files/lightable-0.0.1/lightable.css" rel="stylesheet" />
-<script src="{{< relref "project/test/index.markdown" >}}index_files/kePrint-0.0.1/kePrint.js"></script>
-<link href="{{< relref "project/test/index.markdown" >}}index_files/lightable-0.0.1/lightable.css" rel="stylesheet" />
+
+Para un economista es importante tener acceso a datos economicos de forma rapida y sencilla que permitan tomar decisiones en base a datos analizados. Las librerias de R que permiten hacer este tipo consultas son: **quantmod** y **Quandl**
 
 
-
-En empresas internacionales es muy comun trabajar con divisas, pero cuando consolidas resultados contables lo haces con una moneda unica. Las divisas fluctuan y con el paso del tiempo pueden generar alteraciones en el balance, y por eso es muy importante tener un control sobre ellas.
-
-Con R puedes generar una fuente de datos ecoconómicos donde tener controladas las fluctuaciones diarias, por horas o por minutos de cada una de las monedas con las que operas.
-
-Entre las librerias mas utilizas para consultar datos económicos estan **quantmod** o **Quandl**.
 
 
 ```r
@@ -67,9 +61,17 @@ library(Quandl)
 ```
 
 
+```r
+library(tidyverse)
+library(kableExtra)
+library(lubridate)
+library(ggplot2)
+library(tidyquant)
+```
 
-La función **getSymbols()** de la libreria **quantmod** permite capturar datos economicos de **distintas fuentes en internet**. Convierte el simbolo EUR/USD (donde EUR es la divisa base y el USD su cotización) a un simbolo valido para la extracción: **EURUSD**.
+La función **getSymbols()** de la libreria **quantmod** permite consultar datos economicos de **distintas fuentes**. 
 
+Cada fuente tiene sus particularidades, **Oanda.com** por ejemplo, proporciona datos historicos de 180 días, ¡aunque siempre se puede modificar el argumento de la función (from - to)!
 
 https://finance.yahoo.com/?guccounter=1
 
@@ -79,9 +81,8 @@ https://fred.stlouisfed.org/
 
 https://www.oanda.com/rw-en/
 
-Cada fuente tiene sus particularidades, **Oanda.com** proporciona datos historicos de 180 días, aunque siempre se puede modificar el argumento de la función (from - to) e ir acumulando datos.
 
-Con **quandl()** se puede extraer la cotización del dollar en el **Banco Central Europeo (BCE)** y generar un CSV.
+Vamos a llamar a la API del  **Banco Central Europeo (BCE)** a traves del paquete de R **quandl()** para extraer la cotización del dollar con respecto al euro:
 
 
 
@@ -91,6 +92,8 @@ Con **quandl()** se puede extraer la cotización del dollar en el **Banco Centra
 eurusd<-Quandl(code="ECB/EURUSD")
 ```
 
+El resultado que nos proporciona es el siguiente:
+
 <table class="table table-striped" style="font-size: 14px; margin-left: auto; margin-right: auto;">
  <thead>
   <tr>
@@ -99,6 +102,18 @@ eurusd<-Quandl(code="ECB/EURUSD")
   </tr>
  </thead>
 <tbody>
+  <tr>
+   <td style="text-align:left;"> 2020-12-02 </td>
+   <td style="text-align:right;"> 1.2066 </td>
+  </tr>
+  <tr>
+   <td style="text-align:left;"> 2020-12-01 </td>
+   <td style="text-align:right;"> 1.1968 </td>
+  </tr>
+  <tr>
+   <td style="text-align:left;"> 2020-11-30 </td>
+   <td style="text-align:right;"> 1.1980 </td>
+  </tr>
   <tr>
    <td style="text-align:left;"> 2020-11-27 </td>
    <td style="text-align:right;"> 1.1922 </td>
@@ -111,32 +126,23 @@ eurusd<-Quandl(code="ECB/EURUSD")
    <td style="text-align:left;"> 2020-11-25 </td>
    <td style="text-align:right;"> 1.1890 </td>
   </tr>
-  <tr>
-   <td style="text-align:left;"> 2020-11-24 </td>
-   <td style="text-align:right;"> 1.1865 </td>
-  </tr>
-  <tr>
-   <td style="text-align:left;"> 2020-11-23 </td>
-   <td style="text-align:right;"> 1.1901 </td>
-  </tr>
-  <tr>
-   <td style="text-align:left;"> 2020-11-20 </td>
-   <td style="text-align:right;"> 1.1863 </td>
-  </tr>
 </tbody>
 </table>
 
-**Ejemplo** con 52.646 transacciones de una empresa que se dedica al transporte de pasajaeros y que opera en diferentes ciudades del mundo: En euros, pesos mexicanos, pesos argentinos, chilenos...
+En empresas internacionales es comun operar con diferentes divisas y consolidar resultados en una moneda unica. 
 
-He seleccionado los siguientes campos para continuar en con el ejemplo:
-
-- **journey_id**
-- **created_at**
-- **currency**
-- **price_base**
-- **cost_base**
+Vamos a intentar automatizar este proceso con R y para ello tengo un **ejemplo** con 52.646 transacciones de una empresa que se dedica al transporte de pasajaeros urbanos y que opera en diferentes ciudades del mundo: Con euros, pesos mexicanos, pesos argentinos, chilenos..,
 
 
+
+
+```
+## [1] "EUR" "MXN" "BRL" "PEN" "ARS" "CLP" "USD"
+```
+
+**Objetivo del analisis : analizar las ventas totales de las empresa en Euros y por mes**
+
+Los datos que estamos explorando contienen mas variables de las que he seleccionado...
 
 <table class="table table-striped" style="font-size: 14px; margin-left: auto; margin-right: auto;">
  <thead>
@@ -194,68 +200,7 @@ He seleccionado los siguientes campos para continuar en con el ejemplo:
 </tbody>
 </table>
 
-<table class="table table-striped" style="font-size: 14px; margin-left: auto; margin-right: auto;">
- <thead>
-  <tr>
-   <th style="text-align:left;"> journey_id </th>
-   <th style="text-align:left;"> created_at </th>
-   <th style="text-align:left;"> currency </th>
-   <th style="text-align:right;"> price_base </th>
-   <th style="text-align:right;"> cost_base </th>
-  </tr>
- </thead>
-<tbody>
-  <tr>
-   <td style="text-align:left;"> 6891256a326c4c22ba448e9d07dd6982 </td>
-   <td style="text-align:left;"> 2017-05-14 09:19:47 </td>
-   <td style="text-align:left;"> EUR </td>
-   <td style="text-align:right;"> 0.00 </td>
-   <td style="text-align:right;"> 0.00 </td>
-  </tr>
-  <tr>
-   <td style="text-align:left;"> aa280d32bf2b4981902c9351eb1e54d0 </td>
-   <td style="text-align:left;"> 2017-03-14 06:27:36 </td>
-   <td style="text-align:left;"> MXN </td>
-   <td style="text-align:right;"> 0.00 </td>
-   <td style="text-align:right;"> 0.00 </td>
-  </tr>
-  <tr>
-   <td style="text-align:left;"> 1e97cb74cfcb4c02938a561fd143e5da </td>
-   <td style="text-align:left;"> 2017-03-14 16:34:46 </td>
-   <td style="text-align:left;"> MXN </td>
-   <td style="text-align:right;"> 45.50 </td>
-   <td style="text-align:right;"> 36.40 </td>
-  </tr>
-  <tr>
-   <td style="text-align:left;"> ec2bec2ffe46486c89f22d7a0026795f </td>
-   <td style="text-align:left;"> 2017-03-15 02:24:57 </td>
-   <td style="text-align:left;"> MXN </td>
-   <td style="text-align:right;"> 37.45 </td>
-   <td style="text-align:right;"> 22.46 </td>
-  </tr>
-  <tr>
-   <td style="text-align:left;"> d8b49fc3a0ce4b67a44e910017e63158 </td>
-   <td style="text-align:left;"> 2017-03-15 06:32:41 </td>
-   <td style="text-align:left;"> MXN </td>
-   <td style="text-align:right;"> 0.00 </td>
-   <td style="text-align:right;"> 0.00 </td>
-  </tr>
-  <tr>
-   <td style="text-align:left;"> 67d1a13aa7b24024892ffca4585a68e2 </td>
-   <td style="text-align:left;"> 2017-04-17 02:13:29 </td>
-   <td style="text-align:left;"> MXN </td>
-   <td style="text-align:right;"> 40.00 </td>
-   <td style="text-align:right;"> 32.00 </td>
-  </tr>
-</tbody>
-</table>
-
-Exploro los datos de las ventas con las divisas
-
-
-```
-##  POSIXct[1:52645], format: "2017-12-17 00:20:33" "2017-11-24 06:39:45" "2017-11-29 20:57:36" ...
-```
+Agrupamos las ventas de la compañia por mes...
 
 <table class="table table-striped" style="font-size: 14px; margin-left: auto; margin-right: auto;">
  <thead>
@@ -316,9 +261,11 @@ Exploro los datos de las ventas con las divisas
 </tbody>
 </table>
 
-No estamos calculando correctamente las ventas, se estan mezclando distintas divisas. Nuestro objetivo es tenerlas en €
+... pero no es lo correcto por que estamos mezclando diferentes divisas.
 
-A traves de **yahoo** y la función **getSymbols()** extraemos las cotizaciones. Asegurarse de tener Internet al ejecutar este codigo.
+Aquí es donde viene lo importante de este proyecto...os detallo lo que vamos hacer paso por paso: 
+
+1) Preparamos una tabla de fechas
 
 
 ```r
@@ -336,6 +283,8 @@ currDF = currDF %>% mutate(aniomes = paste(year(date),month(date)))
 currDF$divisaaniomes<-paste(currDF$variable,currDF$aniomes)
 ```
 
+2) Los datos que tenemos son del 2017, marcamos los limites y el formato de los datos
+
 
 ```r
 #tipos de cambio historicos de 2017
@@ -343,6 +292,10 @@ startDt = as.Date("2017-01-03 13:20:24")
 endDt = as.Date("2017-12-30 09:54:08")
 currCombinations = paste(setdiff(unique(currDF$variable),"EUR"),"EUR=X",sep="")
 ```
+
+3) Extraemos la cotiación de las divisas desde **yahoo** con la función **getSymbols()**. Y alimentamos la tabla. 
+
+Asegurarse de tener Internet al ejecutar este codigo.
 
 
 ```r
@@ -352,16 +305,13 @@ colnames(fxData) = gsub("EUR.X.Close","",colnames(fxData))
 fxData$EUR = 1
 ```
 
-Para reportar estos resultados mensualmente, vamos a utilizar la media de las cotizaciones de cada divisa **tipo de cambio medio de cada mes y de cada divisa**.
+4) Calculamos la media de la cotización de cada divisa durante cada mez: **tipo de cambio medio de cada mes y de cada divisa**. (¡ojo! si el reporting es **anual**, podemos modificar la formula)
 
 
 ```r
 fxData_DF = data.frame(date=index(fxData),coredata(fxData),stringsAsFactors=FALSE)
 fxMolten = melt(fxData_DF,id="date",variable.name="currency",value.name="conversionFactor")
-```
 
-
-```r
 #creamos la columna aniomes para poder calcular el tipo de cambio medio de cada mes
 fxMolten = fxMolten %>% mutate(aniomes = paste(year(date),month(date)))
 
@@ -411,18 +361,12 @@ datosdivisa$price_base_EUR<-datosdivisa$price_base*datosdivisa$amountmedia
 datosdivisa$cost_base_EUR<-datosdivisa$cost_base*datosdivisa$amountmedia
 ```
 
-
-```r
-datosdivisa = datosdivisa[,c("journey_id","created_at","currency","price_base","cost_base","price_base_EUR","cost_base_EUR")]
-#visualizo nuestra nueva tabla
-head(datosdivisa)%>%
-  knitr::kable()%>%
-  kable_styling(bootstrap_options = "striped", font_size = 14)
-```
+5) Incorporamos las columnas de coste y facturación en euros
 
 <table class="table table-striped" style="font-size: 14px; margin-left: auto; margin-right: auto;">
  <thead>
   <tr>
+   <th style="text-align:left;">   </th>
    <th style="text-align:left;"> journey_id </th>
    <th style="text-align:left;"> created_at </th>
    <th style="text-align:left;"> currency </th>
@@ -434,58 +378,64 @@ head(datosdivisa)%>%
  </thead>
 <tbody>
   <tr>
-   <td style="text-align:left;"> 503495fb4eb5e78b009da9265a2f3cf6 </td>
-   <td style="text-align:left;"> 2017-11-27 18:02:10 </td>
-   <td style="text-align:left;"> ARS </td>
-   <td style="text-align:right;"> 598.18 </td>
-   <td style="text-align:right;"> 448.64 </td>
-   <td style="text-align:right;"> 29.129463 </td>
-   <td style="text-align:right;"> 21.847341 </td>
+   <td style="text-align:left;"> 52255 </td>
+   <td style="text-align:left;"> bf9362f0d7b6892e76c69fe098ef1c93 </td>
+   <td style="text-align:left;"> 2017-07-21 01:46:20 </td>
+   <td style="text-align:left;"> USD </td>
+   <td style="text-align:right;"> 5.87 </td>
+   <td style="text-align:right;"> 4.40 </td>
+   <td style="text-align:right;"> 5.095841 </td>
+   <td style="text-align:right;"> 3.819710 </td>
   </tr>
   <tr>
-   <td style="text-align:left;"> 9abb868e3e57f04748d889b81b1102b2 </td>
-   <td style="text-align:left;"> 2017-11-27 00:46:00 </td>
-   <td style="text-align:left;"> ARS </td>
-   <td style="text-align:right;"> 120.00 </td>
-   <td style="text-align:right;"> 90.00 </td>
-   <td style="text-align:right;"> 5.843618 </td>
-   <td style="text-align:right;"> 4.382714 </td>
+   <td style="text-align:left;"> 52256 </td>
+   <td style="text-align:left;"> 42f2707ecd5af8179ff0cd6205d82c80 </td>
+   <td style="text-align:left;"> 2017-07-25 00:44:49 </td>
+   <td style="text-align:left;"> USD </td>
+   <td style="text-align:right;"> 2.12 </td>
+   <td style="text-align:right;"> 1.59 </td>
+   <td style="text-align:right;"> 1.840406 </td>
+   <td style="text-align:right;"> 1.380304 </td>
   </tr>
   <tr>
-   <td style="text-align:left;"> a575eb6697ea71b51aafd881b91b2068 </td>
-   <td style="text-align:left;"> 2017-02-28 16:46:05 </td>
-   <td style="text-align:left;"> ARS </td>
-   <td style="text-align:right;"> 0.00 </td>
-   <td style="text-align:right;"> 0.00 </td>
-   <td style="text-align:right;"> 0.000000 </td>
-   <td style="text-align:right;"> 0.000000 </td>
+   <td style="text-align:left;"> 52257 </td>
+   <td style="text-align:left;"> 3053fe92a9f227506566bf9f84c4b018 </td>
+   <td style="text-align:left;"> 2017-07-28 13:52:15 </td>
+   <td style="text-align:left;"> USD </td>
+   <td style="text-align:right;"> 3.06 </td>
+   <td style="text-align:right;"> 2.30 </td>
+   <td style="text-align:right;"> 2.656435 </td>
+   <td style="text-align:right;"> 1.996667 </td>
   </tr>
   <tr>
-   <td style="text-align:left;"> 339ed33ab68c455d9500a61e39e7a777 </td>
-   <td style="text-align:left;"> 2017-02-28 23:07:12 </td>
-   <td style="text-align:left;"> ARS </td>
-   <td style="text-align:right;"> 112.92 </td>
-   <td style="text-align:right;"> 84.69 </td>
-   <td style="text-align:right;"> 6.794283 </td>
-   <td style="text-align:right;"> 5.095713 </td>
+   <td style="text-align:left;"> 52258 </td>
+   <td style="text-align:left;"> ba40e1bcd73099db808f1148161613ed </td>
+   <td style="text-align:left;"> 2017-07-24 05:17:34 </td>
+   <td style="text-align:left;"> USD </td>
+   <td style="text-align:right;"> 23.80 </td>
+   <td style="text-align:right;"> 17.85 </td>
+   <td style="text-align:right;"> 20.661161 </td>
+   <td style="text-align:right;"> 15.495871 </td>
   </tr>
   <tr>
-   <td style="text-align:left;"> ca9e6cea8d249a134b812ca3a4d26908 </td>
-   <td style="text-align:left;"> 2017-02-28 16:49:00 </td>
-   <td style="text-align:left;"> ARS </td>
-   <td style="text-align:right;"> 0.00 </td>
-   <td style="text-align:right;"> 0.00 </td>
-   <td style="text-align:right;"> 0.000000 </td>
-   <td style="text-align:right;"> 0.000000 </td>
+   <td style="text-align:left;"> 52259 </td>
+   <td style="text-align:left;"> bd67e2870da4726d52653d4089b28155 </td>
+   <td style="text-align:left;"> 2017-07-28 18:49:07 </td>
+   <td style="text-align:left;"> USD </td>
+   <td style="text-align:right;"> 2.67 </td>
+   <td style="text-align:right;"> 2.00 </td>
+   <td style="text-align:right;"> 2.317870 </td>
+   <td style="text-align:right;"> 1.736232 </td>
   </tr>
   <tr>
-   <td style="text-align:left;"> 740f9cbddb8b6d08f9ee5fbb3a1a631c </td>
-   <td style="text-align:left;"> 2017-03-28 10:42:02 </td>
-   <td style="text-align:left;"> ARS </td>
-   <td style="text-align:right;"> 0.00 </td>
-   <td style="text-align:right;"> 0.00 </td>
-   <td style="text-align:right;"> 0.000000 </td>
-   <td style="text-align:right;"> 0.000000 </td>
+   <td style="text-align:left;"> 52260 </td>
+   <td style="text-align:left;"> 12028aeaff88f8a3b3a26f58843fd1ce </td>
+   <td style="text-align:left;"> 2017-07-21 00:34:38 </td>
+   <td style="text-align:left;"> USD </td>
+   <td style="text-align:right;"> 2.84 </td>
+   <td style="text-align:right;"> 2.13 </td>
+   <td style="text-align:right;"> 2.465449 </td>
+   <td style="text-align:right;"> 1.849087 </td>
   </tr>
 </tbody>
 </table>
@@ -493,21 +443,8 @@ head(datosdivisa)%>%
 Ahora que tenemos los datos en euros, vuelvo agrupar los resultados de las ventas por mes
 
 
-```r
-str(datosdivisa$created_at)
+```
 ##  POSIXct[1:52260], format: "2017-11-27 18:02:10" "2017-11-27 00:46:00" "2017-02-28 16:46:05" ...
-
-datosdivisa$month <- as.factor(months(as.Date(datosdivisa$created_at, "%Y/%m/%d",tz="UTC")))
-
-datosdivisa$price_base_EUR[is.na(datosdivisa$price_base_EUR)] <- 0
-
-datosdivisa %>%
-    # group by year and summarizing sales
-    group_by(month) %>%
-    summarize(sales = sum(price_base_EUR)) %>%
-    ungroup() %>%
-    knitr::kable()%>%
-    kable_styling(bootstrap_options = "striped", font_size = 14)
 ```
 
 <table class="table table-striped" style="font-size: 14px; margin-left: auto; margin-right: auto;">
@@ -568,3 +505,6 @@ datosdivisa %>%
   </tr>
 </tbody>
 </table>
+
+Y podría dibujar un grafico:
+
