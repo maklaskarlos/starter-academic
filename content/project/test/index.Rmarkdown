@@ -1,7 +1,7 @@
 ---
 # Documentation: https://wowchemy.com/docs/managing-content/
 
-title: "Reporting de ventas con R"
+title: "Reporting de ventas con R (Multidivisa)"
 summary: ""
 authors: []
 tags: []

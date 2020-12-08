@@ -1,0 +1,174 @@
+---
+# Documentation: https://wowchemy.com/docs/managing-content/
+
+title: "Real Estate Marketplace Analytics"
+summary: ""
+authors: []
+tags: []
+categories: []
+date: 2020-12-08T18:22:01+01:00
+
+# Optional external URL for project (replaces project detail page).
+external_link: ""
+
+# Featured image
+# To use, add an image named `featured.jpg/png` to your page's folder.
+# Focal points: Smart, Center, TopLeft, Top, TopRight, Left, Right, BottomLeft, Bottom, BottomRight.
+image:
+  caption: ""
+  focal_point: ""
+  preview_only: false
+
+# Custom links (optional).
+#   Uncomment and edit lines below to show custom links.
+# links:
+# - name: Follow
+#   url: https://twitter.com
+#   icon_pack: fab
+#   icon: twitter
+
+url_code: ""
+url_pdf: ""
+url_slides: ""
+url_video: ""
+
+# Slides (optional).
+#   Associate this project with Markdown slides.
+#   Simply enter your slide deck's filename without extension.
+#   E.g. `slides = "example-slides"` references `content/slides/example-slides.md`.
+#   Otherwise, set `slides = ""`.
+slides: ""
+---
+
+Estoy colaborando en un proyecto donde estamos midiendo la duración de un anuncio en 2 plataformas de clasificados inmobiliarios, donde operan mayormente 4 agentes.
+
+La forma que tiene estas plataformas de monetizar su servicio es atraves del cobro de facturas mensuales a los anunciantes profesionales.
+
+La información la queremos ver por semana...
+
+... y por agente inmobiliario...
+
+**objetivo: medir las semanas que dura un anuncio en 3 plataformas online de anuncios inmobiliarios**
+
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(collapse = TRUE)
+```
+
+```{r libraries, echo = TRUE, include=FALSE}
+library(tidyverse)
+library(lubridate)
+library(tidyquant)
+library(plotly)
+library(scales)
+library(readxl)
+library(readr)
+library(writexl)
+library(knitr)
+```
+
+```{r data, echo = TRUE, include=FALSE}
+Agents_SW_Joined_49 <- read_excel(path="C:/Users/karlo/OneDrive/Escritorio/Deusto/Proyectos/Javier_Etxebeste/Proyecto_1/data/Agents_SW_Joined_49.xlsx",col_types = c("text", "text","text","text","text","text","text", "text", "text"))
+
+```
+
+En el primer grafico esta la evolución de la duración de los anuncios publicados por los 4 agentes inmobiliarios durante las 9 nueves semanas posteriores a partir de la semana 49 del año...
+
+```{r chart preparation, echo = TRUE, include=FALSE}
+SW_AgentAll_Joined_Wide_49 <- Agents_SW_Joined_49 %>%
+  group_by(week, Agent_Unique_ID) %>% 
+  count() %>% 
+  arrange() %>%
+  ungroup() %>%
+  pivot_wider(names_from = Agent_Unique_ID, values_from = n)
+
+# Replace NA with 0 and network = NA with No_Agent_Information
+SW_AgentAll_Joined_Wide_49[is.na(SW_AgentAll_Joined_Wide_49)] <- 0
+
+# Wrangling
+SW_AgentAll_Joined_Wide_49 <- SW_AgentAll_Joined_Wide_49 %>%
+  mutate(All = rowSums(.[2:1372])) %>%
+  select(week,All) %>%
+  mutate(weeknumber = substr(week,6,7),
+         year = substr(week,1,4)) %>%
+  mutate(weekyear = as.Date(paste( 1, weeknumber, year, sep = "-" ), format = "%u-%U-%Y" ))  %>%
+  select(weekyear, All)
+
+glimpse(SW_AgentAll_Joined_Wide_49)
+
+# L Portal
+SW_AgentAll_Joined_Wide_PortalL_49 <- Agents_SW_Joined_49 %>%
+  filter(Portal_L_Match != "NA") %>%
+  group_by(week, Agent_Unique_ID) %>% 
+  count() %>% 
+  arrange() %>%
+  ungroup() %>%
+  pivot_wider(names_from = Agent_Unique_ID, values_from = n)
+
+# Replace NA with 0 and network = NA with No_Agent_Information
+SW_AgentAll_Joined_Wide_PortalL_49[is.na(SW_AgentAll_Joined_Wide_PortalL_49)] <- 0
+
+# Wrangling
+SW_AgentAll_Joined_Wide_PortalL_49 <- SW_AgentAll_Joined_Wide_PortalL_49 %>%
+  mutate(L = rowSums(.[2:1070])) %>%
+  select(week,L) %>%
+  mutate(weeknumber = substr(week,6,7),
+         year = substr(week,1,4)) %>%
+  mutate(weekyear = as.Date(paste( 1, weeknumber, year, sep = "-" ), format = "%u-%U-%Y" ))  %>%
+  select(weekyear, L)
+
+# F Portal
+SW_AgentAll_Joined_Wide_PortalF_49 <- Agents_SW_Joined_49 %>%
+  filter(Portal_F_Match != "NA") %>%
+  group_by(week, Agent_Unique_ID) %>% 
+  count() %>% 
+  arrange() %>%
+  ungroup() %>%
+  pivot_wider(names_from = Agent_Unique_ID, values_from = n)
+
+# Replace NA with 0 and network = NA with No_Agent_Information
+SW_AgentAll_Joined_Wide_PortalF_49[is.na(SW_AgentAll_Joined_Wide_PortalF_49)] <- 0
+
+# Wrangling: No need as their no listings
+SW_AgentAll_Joined_Wide_PortalF_49 <- SW_AgentAll_Joined_Wide_PortalF_49 %>%
+  mutate(F = rowSums(.[2:339])) %>%
+  select(week,F) %>%
+  mutate(weeknumber = substr(week,6,7),
+         year = substr(week,1,4)) %>%
+  mutate(weekyear = as.Date(paste( 1, weeknumber, year, sep = "-" ), format = "%u-%U-%Y" ))  %>%
+  select(weekyear, F)
+
+# merge
+
+SW_AgentAll_TimeSeries <- merge(SW_AgentAll_Joined_Wide_49, 
+                              SW_AgentAll_Joined_Wide_PortalL_49,
+                              by= "weekyear")
+
+SW_AgentAll_All_TimeSeries <- merge(SW_AgentAll_TimeSeries,
+                                  SW_AgentAll_Joined_Wide_PortalF_49,
+                                  by= "weekyear")
+```
+
+<img src="images/chart building-1.png" alt="" width="600px" height="300px"/>
+
+```{r chart building, echo = TRUE, include=FALSE}
+SW_AgentAll_All_TimeSeries %>%
+  gather("portal","volume",-weekyear) %>%
+  glimpse() %>%
+  ggplot(aes(x=weekyear,y=volume, colour= portal)) +
+  geom_line() +
+  geom_point() +
+  geom_text(aes(label = round(volume, 1)),
+            vjust = "inward", hjust = "inward",
+            size=3) + 
+  # Formatting
+  theme_tq() +
+  scale_y_continuous(breaks=seq(100,1400,200)) +
+  scale_x_date(labels = date_format("%W"), breaks = date_breaks("week")) +
+  labs(
+    title = "Cohort New Listing Week 49 | Year 2020",
+    subtitle = "All Agents | All Listings",
+    x = "Week",
+    y = "Volume"
+  ) 
+```
+
