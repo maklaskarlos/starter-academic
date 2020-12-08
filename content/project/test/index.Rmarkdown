@@ -53,9 +53,12 @@ library(Quandl)
 
 ```{r librerias I, message=FALSE, warning=FALSE, echo = TRUE}
 library(tidyverse)
+library(dplyr)
 library(kableExtra)
+library(reshape)
 library(lubridate)
 library(ggplot2)
+library(scales)
 library(tidyquant)
 ```
 
@@ -95,18 +98,43 @@ head(eurusd)%>%
 
 En empresas internacionales es comun operar con diferentes divisas y consolidar resultados en una moneda unica. 
 
+**Objetivo del analisis : analizar las ventas de las empresa en Euros**
+
 Vamos a intentar automatizar este proceso con R y para ello tengo un **ejemplo** con 52.646 transacciones de una empresa que se dedica al transporte de pasajaeros urbanos y que opera en diferentes ciudades del mundo: Con euros, pesos mexicanos, pesos argentinos, chilenos..,
 
 ```{r proyecto, message=FALSE, warning=FALSE, echo = FALSE}
 library(readr)
-datos <- read_csv("C:/Users/karlo/OneDrive/Escritorio/Practicas_Karlos/Proyecto CABIFY/datos.csv")
+datos <- read_csv("C:/Users/karlo/OneDrive/Escritorio/Practicas_Karlos/Proyecto CABIFY/prueba_seleccion.csv") %>%
+  select(c("journey_id","created_at","currency","price_base","cost_base","region_id"))
+
+datos$ciudad<-"xxx"
+datos$ciudad[datos$region_id=="ar_buenos_aires"] = "Buenos Aires"
+datos$ciudad[datos$region_id=="barcelona"] = "Barcelona"
+datos$ciudad[datos$region_id=="br_rio_de_janeiro"] = "Rio de Janeirol"
+datos$ciudad[datos$region_id=="br_sao_paulo"] = "Sao Paulo"
+datos$ciudad[datos$region_id=="ec_quito"] = "Quito"
+datos$ciudad[datos$region_id=="es_sevilla"] = "Sevilla"
+datos$ciudad[datos$region_id=="lima"] = "Lima"
+datos$ciudad[datos$region_id=="madrid"] = "Madrid"
+datos$ciudad[datos$region_id=="malaga"] = "Malaga"
+datos$ciudad[datos$region_id=="mexico"] = "Mexico DF"
+datos$ciudad[datos$region_id=="monterrey"] = "Monterrey"
+datos$ciudad[datos$region_id=="mx_guadalajara"] = "Guadalajara"
+datos$ciudad[datos$region_id=="pt_lisboa"] = "Lisboa"
+datos$ciudad[datos$region_id=="puebla"] = "Puebla"
+datos$ciudad[datos$region_id=="santiago"] = "Santiago de Chile"
+datos$ciudad[datos$region_id=="es_valencia"] = "Valencia"
+#summary(datos$ciudad)
+datos$ciudad<-as.factor(datos$ciudad)
+#summary(datos$ciudad)
+
+datos <- datos %>%
+  select(c("journey_id","created_at","currency","price_base","cost_base","ciudad"))
 ```
 
 ```{r proyectoI, message=FALSE, warning=FALSE, echo = FALSE}
 unique(datos$currency)
 ```
-
-**Objetivo del analisis : analizar las ventas totales de las empresa en Euros y por mes**
 
 Los datos que estamos explorando contienen mas variables de las que he seleccionado...
 
@@ -120,29 +148,32 @@ Agrupamos las ventas de la compañia por mes...
 
 ```{r proyectoI0I, message=FALSE, warning=FALSE, echo = FALSE}
 
-datos$month <- as.factor(months(as.Date(datos$created_at, "%Y/%m/%d",tz="UTC")))
+datos$month <- month(datos$created_at)
 
 datos$price_base[is.na(datos$price_base)] <- 0
 
-datos %>%
+
+datos0 <- datos %>%
     # grouping by year and summarizing sales
     group_by(month) %>%
     summarize(sales = sum(price_base)) %>%
-    ungroup() %>%
-    knitr::kable()%>%
-    kable_styling(bootstrap_options = "striped", font_size = 14)
+    ungroup()
+
+datos0$sales <- format(round(as.numeric(datos0$sales), 1), nsmall=1, big.mark=",")
+
+head(datos0)%>%
+  knitr::kable()%>%
+  kable_styling(bootstrap_options = "striped", font_size = 14)
 
 ```
 
-... pero no es lo correcto por que estamos mezclando diferentes divisas.
+...pero no es correcto, estamos mezclando diferentes divisas.
 
 Aquí es donde viene lo importante de este proyecto...os detallo lo que vamos hacer paso por paso: 
 
 1) Preparamos una tabla de fechas
 
 ```{r proyectoII, message=FALSE, warning=FALSE, echo = TRUE}
-library(lubridate)
-library(reshape)
 
 currDF  <- data.frame(
   date = seq.Date(from = as.Date('2017-01-03 13:20:24'), to = as.Date('2017-12-30 09:54:08'), length = 52645),
@@ -199,36 +230,114 @@ datosdivisa = merge(datos,tipocamiomedio, by= "divisaaniomes")
 datosdivisa$price_base_EUR<-datosdivisa$price_base*datosdivisa$amountmedia
 datosdivisa$cost_base_EUR<-datosdivisa$cost_base*datosdivisa$amountmedia
 
+datos1 <- inner_join(datos,datosdivisa, by= "journey_id") 
 ```
 
 5) Incorporamos las columnas de coste y facturación en euros
 
 ```{r proyectoVIII, message=FALSE, warning=FALSE, echo = FALSE}
-datosdivisa = datosdivisa[,c("journey_id","created_at","currency","price_base","cost_base","price_base_EUR","cost_base_EUR")]
+datos1 = datos1[,c("journey_id","created_at.x","currency.x","price_base.x","cost_base.x","price_base_EUR","cost_base_EUR","ciudad.x")]
 #visualizo nuestra nueva tabla
-tail(datosdivisa)%>%
+head(datos1)%>%
   knitr::kable()%>%
-  kable_styling(bootstrap_options = "striped", font_size = 14)
+  kable_styling(bootstrap_options = "striped", font_size = 12)
 ```
 
 Ahora que tenemos los datos en euros, vuelvo agrupar los resultados de las ventas por mes
 
 ```{r proyectoVIIII, message=FALSE, warning=FALSE, echo = FALSE}
-str(datosdivisa$created_at)
+#str(datosdivisa$created_at)
 
-datosdivisa$month <- as.factor(months(as.Date(datosdivisa$created_at, "%Y/%m/%d",tz="UTC")))
+datos1$price_base_EUR[is.na(datos1$price_base_EUR)] <- 0
 
-datosdivisa$price_base_EUR[is.na(datosdivisa$price_base_EUR)] <- 0
+datos1$month <- month(datos1$created_at.x)
 
-datosdivisa %>%
+
+datos2 <- datos1 %>%
     # group by year and summarizing sales
     group_by(month) %>%
     summarize(sales = sum(price_base_EUR)) %>%
-    ungroup() %>%
+    ungroup() 
+
+datos2$sales <- format(round(as.numeric(datos2$sales), 1), nsmall=1, big.mark=",")
+
+datos2%>%
     knitr::kable()%>%
     kable_styling(bootstrap_options = "striped", font_size = 14)
 
 ```
 
-Y podría dibujar un grafico:
+Estan facturando alrededor de 91 millones de euros anuales. Quiero ver las cifras por ciudades...
+
+```{r proyectoVV, message=FALSE, warning=FALSE, echo = FALSE}
+
+datos2 <- datos1 %>%
+  select(c("ciudad.x","created_at.x","price_base_EUR")) %>%
+  mutate(week= week(created_at.x))
+
+datos3 <- datos2 %>%
+  group_by(ciudad.x) %>% 
+  summarize(sales = sum(price_base_EUR)) %>% 
+  arrange() %>%
+  ungroup()
+
+datos3$sales <- round(datos3$sales,2)
+
+datos3[is.na(datos3)] <- 0
+
+theme_set(theme_bw())
+
+# Plot
+ciudades <- ggplot(datos3, aes(x=ciudad.x, y=sales)) + 
+  geom_point(size=3) + 
+  geom_segment(aes(x=ciudad.x, 
+                   xend=ciudad.x, 
+                   y=0, 
+                   yend=sales)) + 
+  labs(title="Lollipop Chart", 
+       subtitle="Make Vs Avg. Mileage", 
+       caption="source: mpg") + 
+  theme(axis.text.x = element_text(angle=65, vjust=0.6)) +
+  scale_y_continuous(labels = comma)
+
+plot(ciudades)
+
+```
+
+Parece que Madrid es una ciudad muy importante para esta compañia...veamos lo que ocurre en Madrid semana a semana...
+
+```{r proyectoVVI, message=FALSE, warning=FALSE, echo = FALSE}
+
+datos4 <- datos1 %>%
+  select(c("ciudad.x","created_at.x","price_base_EUR")) %>%
+  mutate(week= week(created_at.x))
+
+datos5 <- datos4 %>%
+  group_by(week,ciudad.x) %>% 
+  summarize(sales = sum(price_base_EUR)) %>% 
+  arrange() %>%
+  ungroup()
+
+datos5$sales <- round(datos5$sales,2)
+
+datos6 <- spread(datos5, key= ciudad.x, value= sales)
+
+datos6[is.na(datos6)] <- 0
+
+madrid <- datos6 %>%
+  select(c("week","Madrid"))
+
+
+theme_set(theme_bw())
+
+# Draw plot
+ggplot(madrid, aes(x=week, y=Madrid)) + 
+  geom_bar(stat="identity", width=.5, fill="tomato3") + 
+  labs(title="Sales in Madrid", 
+       subtitle="Week Number Vs Sales", 
+       caption="source: private") + 
+  theme(axis.text.x = element_text(angle=65, vjust=0.6))+
+  scale_y_continuous(labels = comma)
+
+```
 
