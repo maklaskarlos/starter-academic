@@ -72,7 +72,7 @@ library(scales)
 library(tidyquant)
 ```
 
-La función **getSymbols()** de la libreria **quantmod** permite consultar datos economicos de **distintas fuentes**. 
+La función **getSymbols()** de la libreria **quantmod** permite consultar datos economicos de **distintas fuentes**.
 
 Cada fuente tiene sus particularidades, **Oanda.com** por ejemplo, proporciona datos historicos de 180 días, ¡aunque siempre se puede modificar el argumento de la función (from - to)!
 
@@ -132,7 +132,7 @@ El resultado que nos proporciona es el siguiente:
 </tbody>
 </table>
 
-En empresas internacionales es comun operar con diferentes divisas y consolidar resultados en una moneda unica. 
+En empresas internacionales es comun operar con diferentes divisas y consolidar resultados en una moneda unica.
 
 **Objetivo del analisis : analizar las ventas de las empresa en Euros**
 
@@ -249,7 +249,7 @@ Agrupamos las ventas de la compañia por mes...
 
 ...pero no es correcto, estamos mezclando diferentes divisas.
 
-Aquí es donde viene lo importante de este proyecto...os detallo lo que vamos hacer paso por paso: 
+Aquí es donde viene lo importante de este proyecto...os detallo lo que vamos hacer paso por paso:
 
 1) Preparamos una tabla de fechas
 
@@ -277,7 +277,7 @@ endDt = as.Date("2017-12-30 09:54:08")
 currCombinations = paste(setdiff(unique(currDF$variable),"EUR"),"EUR=X",sep="")
 ```
 
-3) Extraemos la cotiación de las divisas desde **yahoo** con la función **getSymbols()**. Y alimentamos la tabla. 
+3) Extraemos la cotiación de las divisas desde **yahoo** con la función **getSymbols()**. Y alimentamos la tabla.
 
 Asegurarse de tener Internet al ejecutar este codigo.
 
@@ -344,7 +344,7 @@ datosdivisa = merge(datos,tipocamiomedio, by= "divisaaniomes")
 datosdivisa$price_base_EUR<-datosdivisa$price_base*datosdivisa$amountmedia
 datosdivisa$cost_base_EUR<-datosdivisa$cost_base*datosdivisa$amountmedia
 
-datos1 <- inner_join(datos,datosdivisa, by= "journey_id") 
+datos1 <- inner_join(datos,datosdivisa, by= "journey_id")
 ```
 
 5) Incorporamos las columnas de coste y facturación en euros
@@ -428,6 +428,28 @@ datos1 <- inner_join(datos,datosdivisa, by= "journey_id")
 
 Ahora que tenemos los datos en euros, vuelvo agrupar los resultados de las ventas por mes
 
+
+```r
+#str(datosdivisa$created_at)
+
+datos1$price_base_EUR[is.na(datos1$price_base_EUR)] <- 0
+
+datos1$month <- month(datos1$created_at.x)
+
+
+datos2 <- datos1 %>%
+    # group by year and summarizing sales
+    group_by(month) %>%
+    summarize(sales = sum(price_base_EUR)) %>%
+    ungroup()
+
+datos2$sales <- format(round(as.numeric(datos2$sales), 1), nsmall=1, big.mark=",")
+
+datos2%>%
+    knitr::kable()%>%
+    kable_styling(bootstrap_options = "striped", font_size = 14)
+```
+
 <table class="table table-striped" style="font-size: 14px; margin-left: auto; margin-right: auto;">
  <thead>
   <tr>
@@ -489,9 +511,14 @@ Ahora que tenemos los datos en euros, vuelvo agrupar los resultados de las venta
 
 Estan facturando alrededor de 91 millones de euros anuales. Quiero ver las cifras por ciudades...
 
-<img src="{{< relref "project/test/index.markdown" >}}index_files/figure-html/proyectoVV-1.png" width="672" />
 
-Parece que Madrid es una ciudad muy importante para esta compañia...veamos lo que ocurre en Madrid semana a semana...
 
-<img src="{{< relref "project/test/index.markdown" >}}index_files/figure-html/proyectoVVI-1.png" width="672" />
+Parece que Madrid es una ciudad muy importante para la compañia...
 
+![](images/proyectoVV-1.png)
+
+Quiero ver como vende la empresa en Madrid semana a semana...
+
+
+
+![](images/proyectoVVI-1.png)
