@@ -50,7 +50,13 @@ slides: ""
 <script src="{{< relref "project/test/index.markdown" >}}index_files/kePrint-0.0.1/kePrint.js"></script>
 <link href="{{< relref "project/test/index.markdown" >}}index_files/lightable-0.0.1/lightable.css" rel="stylesheet" />
 
-Para un economista es importante tener acceso a datos economicos de forma rapida y sencilla que permitan tomar decisiones en base a datos analizados. Las librerias de R que permiten hacer este tipo consultas son: **quantmod** y **Quandl**
+En empresas internacionales es comun operar con diferentes divisas y consolidar los resultados en una moneda unica.
+
+El **objetivo de este proyecto es la elaboración de un reporte de ventas, automatizado, en Euros, de una empresa que se dedica al transporte de pasajaeros urbanos** y que opera en diferentes ciudades del mundo: con **euros, pesos mexicanos, pesos argentinos, chilenos...**
+
+Para ello dispongo de un **ejemplo** con 52.646 transacciones. 
+
+Para obtener los tipos de cambio tenemos que tener acceso a datos economicos y las librerias de R: **quantmod** y **Quandl** permiten hacerlo.
 
 
 
@@ -72,9 +78,7 @@ library(scales)
 library(tidyquant)
 ```
 
-La función **getSymbols()** de la libreria **quantmod** permite consultar datos economicos de **distintas fuentes**.
-
-Cada fuente tiene sus particularidades, **Oanda.com** por ejemplo, proporciona datos historicos de 180 días, ¡aunque siempre se puede modificar el argumento de la función (from - to)!
+Existen **distintas fuentes** y cada una de ella tiene sus particularidades: **Oanda.com** por ejemplo, proporciona datos historicos de 180 días, ¡aunque siempre se puede modificar el argumento de la función (from - to)!
 
 https://finance.yahoo.com/?guccounter=1
 
@@ -85,7 +89,7 @@ https://fred.stlouisfed.org/
 https://www.oanda.com/rw-en/
 
 
-Vamos a llamar a la API del  **Banco Central Europeo (BCE)** a traves del paquete de R **quandl()** para extraer la cotización del dollar con respecto al euro:
+Como ejemplo sencillo hacemos una llamada a la API del  **Banco Central Europeo (BCE)**, en este caso a traves del paquete de R **quandl()**, para extraer la cotización del dollar con respecto al euro:
 
 
 
@@ -95,7 +99,7 @@ Vamos a llamar a la API del  **Banco Central Europeo (BCE)** a traves del paquet
 eurusd<-Quandl(code="ECB/EURUSD")
 ```
 
-El resultado que nos proporciona es el siguiente:
+El resultado que proporciona es el siguiente:
 
 <table class="table table-striped" style="font-size: 14px; margin-left: auto; margin-right: auto;">
  <thead>
@@ -105,6 +109,14 @@ El resultado que nos proporciona es el siguiente:
   </tr>
  </thead>
 <tbody>
+  <tr>
+   <td style="text-align:left;"> 2020-12-09 </td>
+   <td style="text-align:right;"> 1.2109 </td>
+  </tr>
+  <tr>
+   <td style="text-align:left;"> 2020-12-08 </td>
+   <td style="text-align:right;"> 1.2114 </td>
+  </tr>
   <tr>
    <td style="text-align:left;"> 2020-12-07 </td>
    <td style="text-align:right;"> 1.2128 </td>
@@ -121,31 +133,20 @@ El resultado que nos proporciona es el siguiente:
    <td style="text-align:left;"> 2020-12-02 </td>
    <td style="text-align:right;"> 1.2066 </td>
   </tr>
-  <tr>
-   <td style="text-align:left;"> 2020-12-01 </td>
-   <td style="text-align:right;"> 1.1968 </td>
-  </tr>
-  <tr>
-   <td style="text-align:left;"> 2020-11-30 </td>
-   <td style="text-align:right;"> 1.1980 </td>
-  </tr>
 </tbody>
 </table>
 
-En empresas internacionales es comun operar con diferentes divisas y consolidar resultados en una moneda unica.
-
-**Objetivo del analisis : analizar las ventas de las empresa en Euros**
-
-Vamos a intentar automatizar este proceso con R y para ello tengo un **ejemplo** con 52.646 transacciones de una empresa que se dedica al transporte de pasajaeros urbanos y que opera en diferentes ciudades del mundo: Con euros, pesos mexicanos, pesos argentinos, chilenos..,
 
 
+
+Volviendo al ejemplo empresarial con el que estsmos trabajando, las divisas con las que la compañia opera son las siguientes...
 
 
 ```
 ## [1] "EUR" "MXN" "BRL" "PEN" "ARS" "CLP" "USD"
 ```
 
-Los datos que estamos explorando contienen mas variables de las que he seleccionado...
+...volviendo al dataset, las variables que necesito para medir las ventas son:
 
 <table class="table table-striped" style="font-size: 14px; margin-left: auto; margin-right: auto;">
  <thead>
@@ -247,9 +248,9 @@ Agrupamos las ventas de la compañia por mes...
 </tbody>
 </table>
 
-...pero no es correcto, estamos mezclando diferentes divisas.
+...pero esto no es lo correcto en estos momentos por que estamos agregando las ventas en diferentes divisas...
 
-Aquí es donde viene lo importante de este proyecto...os detallo lo que vamos hacer paso por paso:
+Lo importante del proyecto viene a continuación... y lo detallo paso por paso:
 
 1) Preparamos una tabla de fechas
 

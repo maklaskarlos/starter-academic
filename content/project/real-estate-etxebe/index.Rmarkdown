@@ -42,13 +42,11 @@ slides: ""
 
 Estoy colaborando en un proyecto donde estamos midiendo la duración de un anuncio en 2 plataformas de clasificados inmobiliarios, donde, generalmente operan 4 agentes imobiliarios.
 
-Estas plataformas cobran facturas mensuales a los agentes (aunciantes) segun el numero de anuncios (inmuebles) publicados. Lo que quiere decir que cuanto mas tiempo un anuncio permanece en la web o mas anuncios publica un agente inmobiliario, mas ingresos genera dicha plataforma.
+Estas plataformas cobran a los agentes (aunciantes) por el numero de anuncios (inmuebles) publicados. Cuanto mas tiempo un anuncio permanece en la web o mas anuncios publica un agente inmobiliario, mas ingresos generan.
 
 Analizamos el numero de anuncios activos en ambas plataformas (Portal L y Portal F) por semana...
 
 ...y por cada agente inmobiliario...
-
-**objetivo: medir las semanas que dura un anuncio en 3 plataformas online de anuncios inmobiliarios**
 
 ```{r setup, include=FALSE}
 knitr::opts_chunk$set(collapse = TRUE)

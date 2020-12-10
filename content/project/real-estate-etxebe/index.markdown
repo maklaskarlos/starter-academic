@@ -40,15 +40,13 @@ url_video: ""
 slides: ""
 ---
 
-Estoy colaborando en un proyecto donde estamos midiendo la duración de un anuncio en 2 plataformas de clasificados inmobiliarios, donde operan mayormente 4 agentes.
+Estoy colaborando en un proyecto donde estamos midiendo la duración de un anuncio en 2 plataformas de clasificados inmobiliarios, donde, generalmente operan 4 agentes imobiliarios.
 
-La forma que tiene estas plataformas de monetizar su servicio es atraves del cobro de facturas mensuales a los anunciantes profesionales.
+Estas plataformas cobran a los agentes (aunciantes) por el numero de anuncios (inmuebles) publicados. Cuanto mas tiempo un anuncio permanece en la web o mas anuncios publica un agente inmobiliario, mas ingresos generan.
 
-La información la queremos ver por semana...
+Analizamos el numero de anuncios activos en ambas plataformas (Portal L y Portal F) por semana...
 
-... y por agente inmobiliario...
-
-**objetivo: medir las semanas que dura un anuncio en 3 plataformas online de anuncios inmobiliarios**
+...y por cada agente inmobiliario...
 
 
 
@@ -56,7 +54,7 @@ La información la queremos ver por semana...
 
 
 
-En el primer grafico esta la evolución de la duración de los anuncios publicados por los 4 agentes inmobiliarios durante las 9 nueves semanas posteriores a partir de la semana 49 del año...
+En el primer grafico vemos la evolución de la duración de los anuncios publicados por todos los agentes inmobiliarios durante nueve semanas, empezando el analisis en la **semana 49** del año...
 
 
 

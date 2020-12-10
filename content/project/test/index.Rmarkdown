@@ -42,9 +42,9 @@ slides: ""
 
 En empresas internacionales es comun operar con diferentes divisas y consolidar los resultados en una moneda unica.
 
-El **objetivo es analizar las ventas,en Euros de una empresa que se dedica al transporte de pasajaeros urbanos** y que opera en diferentes ciudades del mundo: con **euros, pesos mexicanos, pesos argentinos, chilenos...**
+El **objetivo de este proyecto es la elaboración de un reporte de ventas, automatizado, en Euros, de una empresa que se dedica al transporte de pasajaeros urbanos** y que opera en diferentes ciudades del mundo: con **euros, pesos mexicanos, pesos argentinos, chilenos...**
 
-Me han pedido automatizar el proceso y para ello dispongo de un **ejemplo** con 52.646 transacciones. 
+Para ello dispongo de un **ejemplo** con 52.646 transacciones. 
 
 Para obtener los tipos de cambio tenemos que tener acceso a datos economicos y las librerias de R: **quantmod** y **Quandl** permiten hacerlo.
 
