@@ -69,6 +69,6 @@ user_groups:
 - Visitors
 ---
 
-Bienvenidos al cv-blog de Karlos, un sitio dedicado al analisis de datos economicos, estadistica y donde voy compartir diferentes proyectos. Enseño como lo hago y los recursos que utilizo, con el objetivo de documentar mi aprendizaje y compartir formación y conocimiento.
+Bienvenidos al cv-blog de Karlos, un sitio dedicado al analisis de datos economicos y empresariales, conceptos de estadistica y econometria y sus casos de uso. El objetivo es documentar el aprendizaje y compartir formación y conocimiento con los lectores.
 
-Si te gusta probar nuevas tecnologias que te permiten mejorar como profesional, puedes contactar conmigo para preguntarme lo que necesites. En la parte de abajo esta mi contacto.
+Si te gusta probar nuevas tecnologias y colaborar an algun proyecto profesional, puedes contactar conmigo, en la parte de abajo esta el formulario de contacto.

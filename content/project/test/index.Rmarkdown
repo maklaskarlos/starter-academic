@@ -40,7 +40,13 @@ url_video: ""
 slides: ""
 ---
 
-Para un economista es importante tener acceso a datos economicos de forma rapida y sencilla que permitan tomar decisiones en base a datos analizados. Las librerias de R que permiten hacer este tipo consultas son: **quantmod** y **Quandl**
+En empresas internacionales es comun operar con diferentes divisas y consolidar los resultados en una moneda unica.
+
+El **objetivo es analizar las ventas,en Euros de una empresa que se dedica al transporte de pasajaeros urbanos** y que opera en diferentes ciudades del mundo: con **euros, pesos mexicanos, pesos argentinos, chilenos...**
+
+Me han pedido automatizar el proceso y para ello dispongo de un **ejemplo** con 52.646 transacciones. 
+
+Para obtener los tipos de cambio tenemos que tener acceso a datos economicos y las librerias de R: **quantmod** y **Quandl** permiten hacerlo.
 
 ```{r setup, include=FALSE}
 knitr::opts_chunk$set(collapse = TRUE)
@@ -62,9 +68,7 @@ library(scales)
 library(tidyquant)
 ```
 
-La función **getSymbols()** de la libreria **quantmod** permite consultar datos economicos de **distintas fuentes**.
-
-Cada fuente tiene sus particularidades, **Oanda.com** por ejemplo, proporciona datos historicos de 180 días, ¡aunque siempre se puede modificar el argumento de la función (from - to)!
+Existen **distintas fuentes** y cada una de ella tiene sus particularidades: **Oanda.com** por ejemplo, proporciona datos historicos de 180 días, ¡aunque siempre se puede modificar el argumento de la función (from - to)!
 
 https://finance.yahoo.com/?guccounter=1
 
@@ -75,7 +79,7 @@ https://fred.stlouisfed.org/
 https://www.oanda.com/rw-en/
 
 
-Vamos a llamar a la API del  **Banco Central Europeo (BCE)** a traves del paquete de R **quandl()** para extraer la cotización del dollar con respecto al euro:
+Como ejemplo sencillo hacemos una llamada a la API del  **Banco Central Europeo (BCE)**, en este caso a traves del paquete de R **quandl()**, para extraer la cotización del dollar con respecto al euro:
 
 ```{r getsymbolsIX, message=FALSE, warning=FALSE, echo = FALSE}
 # APY KEY para no tener restricciones
@@ -87,7 +91,7 @@ Quandl.api_key("KRyskEozdYNyzeRxwXr2")
 eurusd<-Quandl(code="ECB/EURUSD")
 ```
 
-El resultado que nos proporciona es el siguiente:
+El resultado que proporciona es el siguiente:
 
 ```{r getsymbolsXI, message=FALSE, warning=FALSE, echo = FALSE}
 # Look at the structure of EURUSD
@@ -96,11 +100,6 @@ head(eurusd)%>%
   kable_styling(bootstrap_options = "striped", font_size = 14)
 ```
 
-En empresas internacionales es comun operar con diferentes divisas y consolidar resultados en una moneda unica.
-
-**Objetivo del analisis : analizar las ventas de las empresa en Euros**
-
-Vamos a intentar automatizar este proceso con R y para ello tengo un **ejemplo** con 52.646 transacciones de una empresa que se dedica al transporte de pasajaeros urbanos y que opera en diferentes ciudades del mundo: Con euros, pesos mexicanos, pesos argentinos, chilenos..,
 
 ```{r proyecto, message=FALSE, warning=FALSE, echo = FALSE}
 library(readr)
@@ -132,11 +131,13 @@ datos <- datos %>%
   select(c("journey_id","created_at","currency","price_base","cost_base","ciudad"))
 ```
 
+Volviendo al ejemplo empresarial con el que estsmos trabajando, las divisas con las que la compañia opera son las siguientes...
+
 ```{r proyectoI, message=FALSE, warning=FALSE, echo = FALSE}
 unique(datos$currency)
 ```
 
-Los datos que estamos explorando contienen mas variables de las que he seleccionado...
+...volviendo al dataset, las variables que necesito para medir las ventas son:
 
 ```{r proyectoI0, message=FALSE, warning=FALSE, echo = FALSE}
 head(datos)%>%
@@ -167,9 +168,9 @@ head(datos0)%>%
 
 ```
 
-...pero no es correcto, estamos mezclando diferentes divisas.
+...pero esto no es lo correcto en estos momentos por que estamos agregando las ventas en diferentes divisas...
 
-Aquí es donde viene lo importante de este proyecto...os detallo lo que vamos hacer paso por paso:
+Lo importante del proyecto viene a continuación... y lo detallo paso por paso:
 
 1) Preparamos una tabla de fechas
 
