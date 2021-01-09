@@ -32,17 +32,6 @@ subtitle = ""
   name = "Datos Abiertos"
   description = "Analisis datos abiertos"
 
-[[feature]]
-  icon = "fab"
-  icon_pack = "fab fa-microsoft"
-  name = "Microsoft"
-  description = "Power BI, CDS, Power Apps, Power Automate"
-
-[[feature]]
-  icon = "fab"
-  icon_pack = "fab fa-salesforce"
-  name = "Tableau"
-  description = "Graficos"
 
 # Uncomment to use emoji icons.
 # [[feature]]
