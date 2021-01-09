@@ -40,11 +40,14 @@ url_video: ""
 slides: ""
 ---
 
-Estoy colaborando en un proyecto donde estamos midiendo la duración de un anuncio en 2 plataformas de clasificados inmobiliarios, donde, generalmente operan 4 agentes imobiliarios.
+Estoy colaborando en un proyecto donde se mide la duración de un anuncio (el inmueble) en 2 plataformas de clasificados inmobiliarios. Estamos siguiendo a 4 agentes imobiliarios que operan en dichos portales.
 
-Estas plataformas cobran a los agentes (aunciantes) por el numero de anuncios (inmuebles) publicados. Cuanto mas tiempo un anuncio permanece en la web o mas anuncios publica un agente inmobiliario, mas ingresos generan.
+Estas plataformas cobran por agente (el aunciante) y segun el volumen de anuncios  publicados. Cuanto mas tiempo un anuncio permanece en la web o mas anuncios publica un agente inmobiliario, mayores ingresos para la plataforma.
 
-Analizamos el numero de anuncios activos en ambas plataformas (Portal L y Portal F) por semana...
+Lo primero que suelo hacer es medir el numero de anuncios activos... 
+...semanalmente...
+
+...por plataforma...Portal L y Portal F...
 
 ...y por cada agente inmobiliario...
 
@@ -54,7 +57,7 @@ Analizamos el numero de anuncios activos en ambas plataformas (Portal L y Portal
 
 
 
-En el primer grafico vemos la evolución de la duración de los anuncios publicados por todos los agentes inmobiliarios durante nueve semanas, empezando el analisis en la **semana 49** del año...
+Empezamos el analisis en la **semana 49** del año...
 
 
 
@@ -62,3 +65,6 @@ En el primer grafico vemos la evolución de la duración de los anuncios publica
 
 
 
+... y se puede observar el ritmo con disminuye el numero de inmuebles publicados por estos cuatro agentes en ambos portales...¿es posible que los inmuebles en esta plataformas se vendan rapido?
+
+El analisis es mas profundo, lo que comparto es un ejemplo de lo que se hace.
