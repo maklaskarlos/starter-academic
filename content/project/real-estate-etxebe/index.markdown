@@ -45,6 +45,7 @@ Estoy colaborando en un proyecto donde se mide la duración de un anuncio (el in
 Estas plataformas cobran por agente (el aunciante) y segun el volumen de anuncios  publicados. Cuanto mas tiempo un anuncio permanece en la web o mas anuncios publica un agente inmobiliario, mayores ingresos para la plataforma.
 
 Lo primero que suelo hacer es medir el numero de anuncios activos... 
+
 ...semanalmente...
 
 ...por plataforma...Portal L y Portal F...
@@ -65,6 +66,6 @@ Empezamos el analisis en la **semana 49** del año...
 
 
 
-... y se puede observar el ritmo con disminuye el numero de inmuebles publicados por estos cuatro agentes en ambos portales...¿es posible que los inmuebles en esta plataformas se vendan rapido?
+... se observa el ritmo con el que disminuye el numero de inmuebles publicados en ambos portales...¿es posible que los inmuebles en esta plataformas se vendan rapido?
 
 El analisis es mas profundo, lo que comparto es un ejemplo de lo que se hace.
