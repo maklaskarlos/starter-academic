@@ -6,7 +6,7 @@ subtitle: "Conceptos basicos"
 summary: ""
 authors: [Karlos Garcia]
 tags: [Estadistica, Statistics]
-categories: []
+categories: [Estadistica, R]
 date: 2021-01-10T13:30:29+01:00
 lastmod: 2021-01-10T13:30:29+01:00
 featured: false
@@ -28,11 +28,11 @@ image:
 projects: []
 ---
 
-Un analista de datos o cientifico de datos tiene que entender la estadistica, pero no a todo el mundo le gusta estudiarla. Muchos pensaran que es un "coñazo", hasta para los mejores programadores de software que entienden a la perfección la computación! 
+Un analista de datos o cientifico de datos debería de entender la estadistica, pero no a todo el mundo le gusta estudiar. Diría que el estudio es necesario hasta para los mejores programadores de software que estan intentando convertirse en data scientist! 
 
-Para poder hacer un buen uso de los datos, aplicar tecnicas de machine learning en procesos empresariales, y poder entender lo que se esta haciendo en todo momento, la estadistica es esencial, y en mi opinion, una base muy importante.
+Para hacer un buen uso de los datos, tenemos que hacer preguntas que permitan obtener conclusiones de negocio, tenemos que ser curiosos para mejorar continuamente tu empresa y tienes que empezar a aplicar tecnicas de machine learning para automatizar analiticas en tus procesos empresariales. La estadistica te dará una base importante, por que **te ayudará a comprender e interpretar resultados del codigo**. El lenguaje R dicen que esta preparado para la estadistica.
 
-Vamos a empezar repasando los conceptos basicos...
+Vamos a empezar repasando los conceptos mas basicos...
 
 ¿si tenemos una **población** de 1.000.000 de personas, como podemos medir la edad o la estatura de dicha población?
 
