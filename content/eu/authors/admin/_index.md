@@ -6,7 +6,7 @@ title: Karlos Garcia
 superuser: true
 
 # Role/position
-role: Analista de Datos independiente
+role: Datuen analisia
 
 # Organizations/Affiliations
 organizations:
@@ -14,23 +14,23 @@ organizations:
   url: "http://www.finantzan.com/"
 
 # Short bio (displayed in user profile at end of posts)
-bio: Analisis de datos economicos y financieros en el País Vasco, España y Europa
+bio: Finantzan eta ekonomiari buruzko datuen aztertzailea
 
 intereses:
 - Analytics
-- Estadistica
-- Economia
+- Estadistika
+- Ekonomia
 
 educacion:
   cursos:
-  - curso: Lic. Economicas
-    institucion: Universidad del País Vasco
+  - curso: Ekonomia Lizentziatua
+    institucion: Euskal Herriko Unibertsitatea
     año: 2008
-  - curso: Lic. Aministración y Finanzas
-    institucion: Universidad del País Vasco
-    año: 2010
-  - curso: Mas. Big Data y Business Analytics
-    institucion: Universidad de Deusto
+  - curso: LADEn Lizentziatua
+    institucion: Euskal Herriko Unibertsitatea
+    año: 2012
+  - curso: Big Data eta Business Analytics Masterra
+    institucion: Deustuko Unibertsitatea
     año: 2018
 
 # Social/Academic Networking
@@ -69,6 +69,6 @@ user_groups:
 - Visitors
 ---
 
-Bienvenidos al cv-blog de Karlos, un sitio dedicado al analisis de datos economicos y empresariales, conceptos de estadistica y econometria y sus casos de uso. El objetivo es documentar el aprendizaje y compartir formación y conocimiento con los lectores.
+Ongi etorri nire web orrialdera, datuak nola aztertzen diren ikastera bideratutako lekua! Datuez inguratutako mundu batean bizi gara eta kontextu honetan estadistika edo ekonometria bezalako teknikak geroz eta garrantzi handiagoa daukate. Gure ingurumenean, ekonomian edota empresa munduan ahalik eta erabaki zuzenenak hartzeko. 
 
-Si te gusta probar nuevas tecnologias y colaborar an algun proyecto profesional, puedes contactar conmigo, en la parte de abajo esta el formulario de contacto.
+Teknologia berriak gustatzen bazaizkizu edo projektu profesional baterako laguntza bila baldin bazaude, nirekin kontaktuan ipini zaitezke eta elkarrekin lanean hasi gaitezke, behekaldean informazio gehiago aurkituko duzu.
