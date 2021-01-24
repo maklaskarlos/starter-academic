@@ -6,13 +6,13 @@
 [es]
   languageCode = "es"
   contentDir = "content/es"  # Uncomment for multi-lingual sites, and move English content into `en` sub-folder.
-  title = "Blog en Castellano"
+  title = "en Castellano"
 
 # Uncomment the lines below to configure your website in a second language.
 [eu]
   languageCode = "eu"
   contentDir = "content/eu"
-  title = "Datuekin ere Euskeraz"
+  title = "Euskeraz"
   [eu.params]
     description = "Euskerazko bloga"
   [[eu.menu.main]]

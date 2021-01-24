@@ -6,7 +6,7 @@ title: Karlos Garcia
 superuser: true
 
 # Role/position
-role: Datuen analisia
+role: Datuekin ikertzen
 
 # Organizations/Affiliations
 organizations:
@@ -14,7 +14,7 @@ organizations:
   url: "http://www.finantzan.com/"
 
 # Short bio (displayed in user profile at end of posts)
-bio: Finantzan eta ekonomiari buruzko datuen aztertzailea
+bio: Empresa, ekonomia eta ingurumenari buruzko datuak ikertzen
 
 intereses:
 - Analytics
@@ -23,13 +23,13 @@ intereses:
 
 educacion:
   cursos:
-  - curso: Ekonomia Lizentziatua
+  - curso: Ekonomian Lizentziatua
     institucion: Euskal Herriko Unibertsitatea
     año: 2008
   - curso: LADEn Lizentziatua
     institucion: Euskal Herriko Unibertsitatea
     año: 2012
-  - curso: Big Data eta Business Analytics Masterra
+  - curso: Big Data eta Business Analytics M.
     institucion: Deustuko Unibertsitatea
     año: 2018
 
@@ -69,6 +69,6 @@ user_groups:
 - Visitors
 ---
 
-Ongi etorri nire web orrialdera, datuak nola aztertzen diren ikastera bideratutako lekua! Datuez inguratutako mundu batean bizi gara eta kontextu honetan estadistika edo ekonometria bezalako teknikak geroz eta garrantzi handiagoa daukate. Gure ingurumenean, ekonomian edota empresa munduan ahalik eta erabaki zuzenenak hartzeko. 
+Ongi etorri nire web orrialdera, datuak nola aztertzen diren ikastera bideratutako lekua! Datuez inguratutako mundu batean bizi gara eta kontextu honetan estadistika edo ekonometria bezalako teknikak geroz eta garrantzi handiagoa daukate. Gure ingurumenean, ekonomian edota empresa munduan ahalik eta erabaki zuzenenak hartzeko.
 
 Teknologia berriak gustatzen bazaizkizu edo projektu profesional baterako laguntza bila baldin bazaude, nirekin kontaktuan ipini zaitezke eta elkarrekin lanean hasi gaitezke, behekaldean informazio gehiago aurkituko duzu.
