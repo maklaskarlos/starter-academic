@@ -7,8 +7,8 @@ summary: ""
 authors: [Karlos Garcia]
 tags: [Estadistica, Statistics]
 categories: [Estadistica, R]
-date: 2021-02-10T13:30:29+01:00
-lastmod: 2021-02-10T13:30:29+01:00
+date: 2021-03-10T13:30:29+01:00
+lastmod: 2021-03-10T13:30:29+01:00
 featured: false
 draft: false
 
@@ -27,8 +27,6 @@ image:
 #   Otherwise, set `projects = []`.
 projects: []
 ---
-
-La estadistica es muy importante para cualquier cientifico de datos, vengas del ambito que vengas. Es la base para comprender e interpretar los resultados del proceso analítico.
 
 Cuando empezamos a estudiar **probabilidad** a menudo se nos dice cual es la probabilidad de un evento, y a partir de ahí, intentamos estimar la probabilidad de varios resultados (outputs). Aunque, en realidad, el proceso inverso es mucho mas comun: **tenemos datos sobre los resultados, pero desconocemos la probabilidad de que dicho evento ocurra realmente**.
 
@@ -92,5 +90,14 @@ Como podemos ver en el siguiente link...
 https://www.countbayesie.com/blog/2015/4/4/parameter-estimation-the-pdf-cdf-and-quantile-function
 
 ...la interseccion del eje "x" esta aproximadamente en 0.007 y 0.008, lo que siginifica que hay un 80% de probabilidad de que nuestra tasa de conversion real se encuentre en algun lugar entre estos dos valores.
+
+
+**The Quantile Function**
+
+Para los ejemplos de la mediana y del intervalo de confianza, comenzamos con el eje "y" y lo usamos para encontrar un punto en el eje "x". Sin embargo, matematicamente el CDF toma una "x" y nos da f(x) = y, pero en estos casos en realidad estamos estimando f(y) = x. Lo que hemos hecho visualmente es calcular el inverso de la CDF. El inverso de CDF se llama **Quantile Function**.
+
+ver el mismo enlace...
+
+https://www.countbayesie.com/blog/2015/4/4/parameter-estimation-the-pdf-cdf-and-quantile-function
 
 

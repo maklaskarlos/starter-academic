@@ -38,9 +38,7 @@ Tenemos una **población** de 1.000.000 de personas
 ¿Y si tomamos un elemento ó un conjunto de elementos al azar de esa población y medimos una característica de interés? 
 ¿es lo suficientemente representativo?
 
-Vamos a empezar repasando algunos conceptos basicos...
-
-**Párametro estadístico** (Wikipedia)
+El **Párametro estadístico**
 
 En éstadistica, un **parámetro** es un número que resumen la gran cantidad de datos que pueden derivarse del estudio de una **variable estadistica**
 
@@ -48,21 +46,21 @@ El calculo de este número esta bien definido, generalmente mediante una formula
 
 Los parámetros estadísticos son una consecuencia inevitable del propósito esencial de la estadística: crear un modelo de la realidad.
 
-El estudio de una gran cantidad de datos individuales de una población puede ser farragoso e inoperativo, por lo que se hace necesario realizar un resumen que permita tener una idea global de la población, compararla con otras, comprobar su ajuste a un modelo ideal, realizar estimaciones sobre datos desconocidos de la misma y, en definitiva, tomar decisiones. A estas tareas contribuyen de modo esencial los parámetros estadísticos.
+El estudio de una gran cantidad de datos individuales de una población puede ser farragoso e inoperativo, por lo que se hace necesario realizar un resumen que permita tener una idea global de la población, comparar con otras, comprobar su ajuste a un modelo ideal, realizar estimaciones sobre datos desconocidos de la misma y, en definitiva, tomar decisiones. A estas tareas contribuyen de modo esencial los parámetros estadísticos.
 
-Por ejemplo, suele ofrecerse como resumen de la juventud de una población la media aritmética de las edades de sus miembros, esto es, la suma de todas ellas, dividida por el total de individuos que componen tal población.
+Por ejemplo, suele ofrecerse como resumen de la juventud de una población la media aritmética de las edades de sus miembros.
 
 Principales parametros: 
 
-- Centralización: Valores que suelen situarse cerca del centro de la distribución de datos: **Media** o promedios (incluyendo **media aritmetica**), **Mediana**, **Moda**...
+- De Centralización: Valores que suelen situarse cerca del centro de la distribución de datos: **Media** o promedios (incluyendo **media aritmetica**), **Mediana**, **Moda**...
 
-- Posisición: Divide un conjunto de datos en grupos con el mismo numéro de individuos: **Cuartil**, **Decil**, **Percentil**...
+- De Posisición: Divide un conjunto de datos en grupos con el mismo numéro de individuos: **Cuartil**, **Decil**, **Percentil**...
 
-- Dispersión: 
+- De Dispersión: 
 
 (Absolutas) **Recorridos**, **Desviación Media**, **Varianza** y **Desviación Tipica** (Relativas) **Coeficiente de Variación de Person**, **Coeficiente de apertura**, **Recorridos relativos** e **Inidice de desviación respecto a la mediana**
 
-- Forma: **Medidas de asimetría** y **Medidas de apuntamiento o curtosis**
+- De Forma: **Medidas de asimetría** y **Medidas de apuntamiento o curtosis**
 
 Un parámetro estadístico es deseable que tenga las siguientes propiedades:
 
@@ -73,7 +71,7 @@ Un parámetro estadístico es deseable que tenga las siguientes propiedades:
 - Es poco sensible a las fluctuaciones muestrales. Esta propiedad es más interesante en el caso de la estimación de parámetros
 
 
-**Variable Estadistica** (Wikipedia)
+**Variable Estadistica**
 
 Una variable estadística es una característica que puede fluctuar y cuya variación es susceptible a adoptar diferentes valores, los cuales pueden medirse u observarse. Las variables adquieren valor cuando se relacionan con otras variables, es decir, si forman parte de una **hipótesis** o de una teoría. En este caso se las denomina constructos o construcciones hipotéticas.
 
@@ -111,7 +109,7 @@ Variable aleatoria **continua**: Tiene un numero infinito de valores representad
 - **Independientes**: Una variable independiente es aquella cuyo valor no depende de otra variable. Es aquella característica o propiedad que se supone es la causa del fenómeno estudiado.
 
 
-**Estadistica Descriptiva** (Wikipedia)
+**Estadistica Descriptiva**
 **Estadistica Inferencial**
 
 Un parámetro estadístico es una medida poblacional. Este enfoque es el tradicional de la **estadística descriptiva**
@@ -130,10 +128,10 @@ Mientras que un **parámetro** es una función de los datos de la **población**
 
 Por ejemplo, dada una **muestra estadística** de tamaño n, de una **variable aleatoria** X con **distribución de probabilidad** F(x,θ), donde θ es un conjunto de parámetros de la distribución...
 
-...podemos definir la **media muestral n-esima** con una formula (buscar en internet)...
+...podemos definir la **media muestral n-esima** con una formula...
 ...en el caso concreto de la **varianza muestral**, suele tomarse, por sus mejores propiedades como estimador, otra formula (buscar en internet), donde se ha tomado como denominador n-1, en lugar de n. A este parámetro también se le llama cuasivarianza.
 
-**Estimador** (Wikipedia)
+**Estimador**
 
 En estadística, un estimador es un estadístico (esto es, una función de la muestra) usado para estimar un parámetro desconocido de la población. 
 
@@ -145,7 +143,7 @@ El valor de un estimador proporciona lo que se denomina en estadística una **es
 
 El nivel de confianza es la probabilidad de que a priori el verdadero valor del parámetro quede contenido en el intervalo.
 
-**Variable Aleatoria** (wikipedia)
+**Variable Aleatoria**
 
 Una variable aleatoria es una función que asigna un valor, usualmente numérico, al resultado de un experimento aleatorio. 
 
@@ -160,5 +158,3 @@ Para trabajar de manera sólida con variables aleatorias en general es necesario
 Para seguir leyendo sobre las variables aleatorias:
 
 https://es.wikipedia.org/wiki/Variable_aleatoria#Concepto_intuitivo
-
-Acabamos de terminar de resumir la estadistica y tener una idea de la dimensión de esta matería, en la carrera de economía, todos estos conceptos se ven en dos asignaturas distintas.
