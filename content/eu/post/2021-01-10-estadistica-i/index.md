@@ -1,14 +1,14 @@
 ---
 # Documentation: https://wowchemy.com/docs/managing-content/
 
-title: "Estadistica I"
+title: "Estadistica: Estimacion de Parametros"
 subtitle: "Conceptos basicos"
 summary: ""
 authors: [Karlos Garcia]
 tags: [Estadistica, Statistics]
 categories: [Estadistica, R]
-date: 2021-01-10T13:30:29+01:00
-lastmod: 2021-01-10T13:30:29+01:00
+date: 2021-03-10T13:30:29+01:00
+lastmod: 2021-03-10T13:30:29+01:00
 featured: false
 draft: false
 
@@ -28,139 +28,76 @@ image:
 projects: []
 ---
 
-Un analista de datos o cientifico de datos debería de entender la estadistica, pero no a todo el mundo le gusta estudiar estadistica. Diría que es necesario hasta para cualquier programador de software que quiere convertirse en data scientist! 
+Cuando empezamos a estudiar **probabilidad** a menudo se nos dice cual es la probabilidad de un evento, y a partir de ahí, intentamos estimar la probabilidad de varios resultados (outputs). Aunque, en realidad, el proceso inverso es mucho mas comun: **tenemos datos sobre los resultados, pero desconocemos la probabilidad de que dicho evento ocurra realmente**.
 
-Me gusta utilizar el termino "buen uso de los datos"", cuando haces preguntas que permiten obtener conclusiones de negocio, cuando eres curioso y utilizas las datos para mejorar la empresa o cuando aplicas tecnicas de machine learning para automatizar analiticas en procesos empresariales. 
+Tratar de entender este parametro que falta se conoce como **estimación de parametros**.
 
-La estadistica nos da una base importante para **comprender e interpretar resultados del proceso analítico**.
+En terminos de Marketing, lograr que un usuario realize un evento deseado se denomina conversión, y la probabilidad de que un usuario realice una conversión es la tasa de conversión.
 
-¿si tenemos una **población** de 1.000.000 de personas, como podemos medir la edad o la estatura de dicha población?
+**Me gustaría conocer cual es la probabilidad de que un usuario acabe suscribiendose al blog de mi web**
 
-¿como definimos la edad de esa población? ¿calculamos la medía? 
+Para poder conocer esta probabilidad, tenemos que mencionar la **Distribución de Probabilidad discreta y continua**, sabras que la manera de determinar "p", la probabilidad de que un usuario se suscriba, dado "k", el numero de personas suscritas, y "n", el numero total de visitantes web, es a través de la **distribución Beta**.
 
-¿Y si tomamos un elemento ó un conjunto de elementos al azar de esa población y medimos una característica de interés? ¿es lo suficientemente representativo?
+**The Probability Density Function** Para los primeros 40000 visitantes obtengo 300 suscriptores. Beta(300,39700), recordar que β es el numero de personas que no se han suscrito, y no el total. Se puede visualizar la PDF para esta distribución Beta en el siguiente enlace:
 
-Vamos a empezar repasando algunos conceptos basicos...
+https://www.countbayesie.com/blog/2015/4/4/parameter-estimation-the-pdf-cdf-and-quantile-function
 
-**Párametro estadístico** (Wikipedia)
+Con los datos que tenemos podemos **inferir (deducir)** que la conversión media es simplemente 300 / 40000 = 0,0075
 
-En éstadistica, un **parámetro** es un número que resumen la gran cantidad de datos que pueden derivarse del estudio de una **variable estadistica**
+Podemos utilizar la PDF para comparar dos extremos: 
 
-El calculo de este número esta bien definido, generalmente mediante una formula aritmetica obtenida a partir de datos de la población.
+La probabilidad que nuestra tasa de conversión sea en realidad mas baja de lo que hemos visualizado =  0,008
 
-Los parámetros estadísticos son una consecuencia inevitable del propósito esencial de la estadística: crear un modelo de la realidad.
+Otra pregunta: ¿Cual es la probabilidad de que tengamos mala suerte y nuestra tasa de conversión real sea superior a 0.0085? Respuesta = 0,012
 
-El estudio de una gran cantidad de datos individuales de una población puede ser farragoso e inoperativo, por lo que se hace necesario realizar un resumen que permita tener una idea global de la población, compararla con otras, comprobar su ajuste a un modelo ideal, realizar estimaciones sobre datos desconocidos de la misma y, en definitiva, tomar decisiones. A estas tareas contribuyen de modo esencial los parámetros estadísticos.
+Significa que la probabilidad de que nuestra tasa de conversión sea mucho mas alta de los observamos es, en realidad, un poco más probable, que la probabilidad de que sea mucho menor que la observada! 
 
-Por ejemplo, suele ofrecerse como resumen de la juventud de una población la media aritmética de las edades de sus miembros, esto es, la suma de todas ellas, dividida por el total de individuos que componen tal población.
+Todo integrales...
 
-Principales parametros: 
+Una mejor función es la:
 
-- Centralización: Valores que suelen situarse cerca del centro de la distribución de datos: **Media** o promedios (incluyendo **media aritmetica**), **Mediana**, **Moda**...
+**Cumulative Distribution Function!** 
 
-- Posisición: Divide un conjunto de datos en grupos con el mismo numéro de individuos: **Cuartil**, **Decil**, **Percentil**...
+La CDF, para cualquier distribución de probabilidad, me dice como de probable es que un valor este por debajo de x en nuestra distribución
 
-- Dispersión: 
+Para poder vislualizar el CDS, mismo enlace:
 
-(Absolutas) **Recorridos**, **Desviación Media**, **Varianza** y **Desviación Tipica** (Relativas) **Coeficiente de Variación de Person**, **Coeficiente de apertura**, **Recorridos relativos** e **Inidice de desviación respecto a la mediana**
+https://www.countbayesie.com/blog/2015/4/4/parameter-estimation-the-pdf-cdf-and-quantile-function
 
-- Forma: **Medidas de asimetría** y **Medidas de apuntamiento o curtosis**
+Podemos visuzalizar la mediana, trazando una linea desde el punto en el que la probabilidad acumulada sea 0.5. El 50% de los puntos estan por debajo de este punto y otro 50% por encima.
 
-Un parámetro estadístico es deseable que tenga las siguientes propiedades:
+La CDF permite estimar la mediana y otros cuantiles de forma rapida y precisa.
 
-- Se define de una manera objetiva
-- No desperdicia, a priori, ninguna de las observaciones
-- Es interpretable, significa algo
-- Es sencillo de calcular y se presta con facilidad a manipulaciones algebraicas
-- Es poco sensible a las fluctuaciones muestrales. Esta propiedad es más interesante en el caso de la estimación de parámetros
+Podemos ver como la mediana esta muy cerca de nuestra **expectativa** de 0.0075
 
+Para estimar la probabilidad de que la tasa de conversión esté entre 0,0075 y 0,0085, podemos trazar lineas desde el eje "x" (probabilidad de suscribirse) en estos puntos y luego ver donde se encuentran con el eje "y" (probabilidad acumulada). La distacia entre ellos es la integral aproximada.
 
-**Variable Estadistica** (Wikipedia)
+Observando la CDF, podemos ver que en el eje "y" estos valores van desde aproximadamente 0.5 a 0.99, lo que siginifica que hay aproximadamente un 49% de probabilidad de que nuestra verdadera tasa de conversión se encuentre en algun lugar entre estos dos valores. 
+La razón por la que podemos realizar la integración visual es por que estamos integrando visualmente la PDF, literalmente!
 
-Una variable estadística es una característica que puede fluctuar y cuya variación es susceptible a adoptar diferentes valores, los cuales pueden medirse u observarse. Las variables adquieren valor cuando se relacionan con otras variables, es decir, si forman parte de una **hipótesis** o de una teoría. En este caso se las denomina constructos o construcciones hipotéticas.
+**Confidence Interval**
 
-A partir de este concepto se puede mencionar que una variable es la que permite relacionarla con algún problema o fenómeno, el cual vamos a investigar y buscar posible soluciones.
+Ahora que sabemos que hay un rango de posibles valores que poddriamos tener, tiene mucho sentido preguntar:
 
-Mediante este concepto se puede mencionar que las variables tienen una clasificación: **categóricas** y **numéricas**
+¿cual es el rango que que cubre el 80% de las posibilidades?
 
-1) Las **variables categóricas** se dividen de la siguiente forma:
+La CDF facilita mas que la PDF estimar la precision de los intervalos de confianza 
 
-Dicotómicas
-Nominales
-Ordinales
+Comenzamos en el eje "y" y dibujamos lineas desde 0,1 y 0,9 y luego, simplemente vemos en que parte del eje "x" se cruzan...
 
-2) Y las **variables numéricas** se dividen de la siguiente manera:
+Como podemos ver en el siguiente link...
 
-Continua
-Discreta
+https://www.countbayesie.com/blog/2015/4/4/parameter-estimation-the-pdf-cdf-and-quantile-function
 
-3) Tipos de variables: Dependientes o independientes, Cualitativa o Cuantitativa,...
+...la interseccion del eje "x" esta aproximadamente en 0.007 y 0.008, lo que siginifica que hay un 80% de probabilidad de que nuestra tasa de conversion real se encuentre en algun lugar entre estos dos valores.
 
-4) Segun el nivel de medida
 
-- **Cualitativa**: **Nominal**: En esta variable los criterios no pueden ser sometidos a un criterio de orden, por ejemplo los colores o el lugar de nacimiento. **Ordinal**: La variable puede tomar distintos valores ordenados siguiendo una escala establecida, aunque no es necesario que el intervalo entre mediaciones sea uniforme, por ejemplo: leve, moderado, fuerte.
+**The Quantile Function**
 
-- **Cuantitativas**: 
+Para los ejemplos de la mediana y del intervalo de confianza, comenzamos con el eje "y" y lo usamos para encontrar un punto en el eje "x". Sin embargo, matematicamente el CDF toma una "x" y nos da f(x) = y, pero en estos casos en realidad estamos estimando f(y) = x. Lo que hemos hecho visualmente es calcular el inverso de la CDF. El inverso de CDF se llama **Quantile Function**.
 
-Variable aleatoria **discreta**: Tiene un número finito de valores o un número contable de valores. (0,1,2,3, etc.). **Distribución Binomial**, **Distribución Uniforme**. 
+ver el mismo enlace...
 
-Variable aleatoria **continua**: Tiene un numero infinito de valores representado por un intervalo [a, b]. La única forma de representar un conjunto infinito de valores es mediante un intervalo. En otras palabras, es la variable que puede adquirir cualquier valor dentro un intervalo especificado de valores. Por ejemplo la masa (2,3 kg, 2,4 kg,2,5 kg …) o la altura (1,65 m, 1,66 m, …) o el salario. **Distribución Normal**
+https://www.countbayesie.com/blog/2015/4/4/parameter-estimation-the-pdf-cdf-and-quantile-function
 
-5) Según nivel de Influencia:
 
-- **Dependientes**: Una variable dependiente es aquella cuyos valores dependen de los que tomen otras variables. **La variable dependiente es una función**. Son las variables de respuesta que se observan en el estudio, y que podrían estar influidas por los valores de las variables independientes.
-
-- **Independientes**: Una variable independiente es aquella cuyo valor no depende de otra variable. Es aquella característica o propiedad que se supone es la causa del fenómeno estudiado.
-
-
-**Estadistica Descriptiva** (Wikipedia)
-**Estadistica Inferencial**
-
-Un parámetro estadístico es una medida poblacional. Este enfoque es el tradicional de la **estadística descriptiva**
-
-Es la técnica matemática que obtiene, organiza, presenta y describe un conjunto de datos con el propósito de facilitar el uso, generalmente con el apoyo de tablas, medidas numéricas o gráficas.
-
-Estas técnicas son utilizadas en el proceso de investigación, en la etapa donde el investigador necesita procesar y analizar los datos recolectados en dicho estudio.
-
-Por su parte la **inferencia estadística** utiliza el concepto de parámetro en su significado matemático más puro, esto es, como variable que define una familia de objetos matemáticos en determinados modelos.
-
-En ocasiones los parámetros de una determinada población no pueden conocerse con certeza. Generalmente esto ocurre porque es imposible el estudio de la población completa por cuestiones como que el proceso sea destructivo (p. e., vida media de una bombilla) o muy caro (p.e., audiencias de televisión). En tales situaciones se recurre a las **técnicas de la inferencia estadística** para **realizar estimaciones de tales parámetros a partir de los valores obtenidos de una muestra de la población**.
-
-Se distingue entonces entre parámetros y estadísticos
-
-Mientras que un **parámetro** es una función de los datos de la **población**, el **estadístico** lo es de los datos de una **muestra**. De este modo pueden definirse la media muestral, la varianza muestral o cualquier otro párametro de los vistos más arriba.
-
-Por ejemplo, dada una **muestra estadística** de tamaño n, de una **variable aleatoria** X con **distribución de probabilidad** F(x,θ), donde θ es un conjunto de parámetros de la distribución...
-
-...podemos definir la **media muestral n-esima** con una formula (buscar en internet)...
-...en el caso concreto de la **varianza muestral**, suele tomarse, por sus mejores propiedades como estimador, otra formula (buscar en internet), donde se ha tomado como denominador n-1, en lugar de n. A este parámetro también se le llama cuasivarianza.
-
-**Estimador** (Wikipedia)
-
-En estadística, un estimador es un estadístico (esto es, una función de la muestra) usado para estimar un parámetro desconocido de la población. 
-
-Por ejemplo, si se desea conocer el precio medio de un artículo (el parámetro desconocido) se recogerán observaciones del precio de dicho artículo en diversos establecimientos (la muestra) y la media aritmética de las observaciones puede utilizarse como estimador del precio medio.
-
-Para cada parámetro pueden existir varios estimadores diferentes. En general, escogeremos el estimador que posea mejores propiedades que los restantes, como insesgadez, eficiencia, convergencia y robustez (consistencia).
-
-El valor de un estimador proporciona lo que se denomina en estadística una **estimación puntual** del valor del parámetro en estudio. En general, se suele preferir realizar una estimación mediante un intervalo, esto es, obtener un intervalo [a,b] dentro del cual se espera esté el valor real del parámetro con un cierto **nivel de confianza**. Utilizar un intervalo resulta más informativo, al proporcionar información sobre el posible **error de estimación**, asociado con la amplitud de dicho intervalo. 
-
-El nivel de confianza es la probabilidad de que a priori el verdadero valor del parámetro quede contenido en el intervalo.
-
-**Variable Aleatoria** (wikipedia)
-
-Una variable aleatoria es una función que asigna un valor, usualmente numérico, al resultado de un experimento aleatorio. 
-
-Por ejemplo, los posibles resultados de tirar un dado dos veces: (1, 1), (1, 2), etc. o un número real (p.e., la temperatura máxima medida a lo largo del día en una ciudad concreta).
-
-Una variable aleatoria puede concebirse como un valor numérico que está afectado por el azar. Dada una variable aleatoria, no es posible conocer con certeza el valor que tomará al ser medida o determinada. Aunque sí se conoce que existe una **distribución de probabilidad** asociada al conjunto de valores posibles. 
-
-Por ejemplo, en una epidemia de cólera, se sabe que una persona cualquiera puede enfermar o no (suceso), pero no se sabe cuál de los dos sucesos va a ocurrir. Solamente se puede decir que existe una probabilidad de que la persona enferme.
-
-Para trabajar de manera sólida con variables aleatorias en general es necesario considerar un gran número de **experimentos aleatorios**, para su tratamiento estadístico, cuantificar los resultados de modo que se asigne un número real a cada uno de los resultados posibles del experimento. De este modo se establece una relación funcional entre elementos del espacio muestral asociado al experimento y números reales.
-
-Para seguir leyendo sobre las variables aleatorias:
-
-https://es.wikipedia.org/wiki/Variable_aleatoria#Concepto_intuitivo
-
-Acabamos de terminar de resumir la estadistica y tener una idea de la dimensión de esta matería, en la carrera de economía, todos estos conceptos se ven en dos asignaturas distintas.
