@@ -1,7 +1,7 @@
 ---
 # Documentation: https://wowchemy.com/docs/managing-content/
 
-title: "Estadistica: Intro"
+title: "Estadistica: Parametro Estadistico y Variable Estadistica"
 subtitle: "Conceptos basicos"
 summary: ""
 authors: [Karlos Garcia]
@@ -40,7 +40,7 @@ Tenemos una **población** de 1.000.000 de personas
 
 El **Párametro estadístico**
 
-En éstadistica, un **parámetro** es un número que resumen la gran cantidad de datos que pueden derivarse del estudio de una **variable estadistica**
+En éstadistica, un **parámetro** es un número que resume la gran cantidad de datos que pueden derivarse del estudio de una **variable estadistica**
 
 El calculo de este número esta bien definido, generalmente mediante una formula aritmetica obtenida a partir de datos de la población.
 
@@ -77,59 +77,48 @@ Una variable estadística es una característica que puede fluctuar y cuya varia
 
 A partir de este concepto se puede mencionar que una variable es la que permite relacionarla con algún problema o fenómeno, el cual vamos a investigar y buscar posible soluciones.
 
-Mediante este concepto se puede mencionar que las variables tienen una clasificación: **categóricas** y **numéricas**
+1) Variables categóricas: Dicotómicas, Nominales
+y Ordinales
 
-1) Las **variables categóricas** se dividen de la siguiente forma:
-
-Dicotómicas
-Nominales
-Ordinales
-
-2) Y las **variables numéricas** se dividen de la siguiente manera:
-
-Continua
-Discreta
+2) Variables numéricas: Continua y Discreta
 
 3) Tipos de variables: Dependientes o independientes, Cualitativa o Cuantitativa,...
 
-4) Segun el nivel de medida
+4) Segun el nivel de medida: 
 
-- **Cualitativa**: **Nominal**: En esta variable los criterios no pueden ser sometidos a un criterio de orden, por ejemplo los colores o el lugar de nacimiento. **Ordinal**: La variable puede tomar distintos valores ordenados siguiendo una escala establecida, aunque no es necesario que el intervalo entre mediaciones sea uniforme, por ejemplo: leve, moderado, fuerte.
+Cualitativa - Nominal - No existe criterio de orden, por ejemplo los colores o el lugar de nacimiento
+Cualitativa -Ordinal - Criterios de order siguiendo una escala establecida, aunque no es necesario que el intervalo entre mediaciones sea uniforme, por ejemplo: leve, moderado, fuerte.
 
-- **Cuantitativas**: 
+Cuantitativas - Discreta - Tiene un número finito de valores o un número contable de valores, por ejemplo 0,1,2,3... **Distribución Binomial**, **Distribución Uniforme**. 
 
-Variable aleatoria **discreta**: Tiene un número finito de valores o un número contable de valores. (0,1,2,3, etc.). **Distribución Binomial**, **Distribución Uniforme**. 
+Cuantitativas - Continua - La única forma de representar un conjunto infinito de valores es mediante un intervalo [a, b]. En otras palabras, es la variable que puede adquirir cualquier valor dentro un intervalo especificado de valores. Por ejemplo, el peso en kg: 2,3 2,4 2,5…o la altura en metros 1,65 1,66 …o el salario. **Distribución Normal**
 
-Variable aleatoria **continua**: Tiene un numero infinito de valores representado por un intervalo [a, b]. La única forma de representar un conjunto infinito de valores es mediante un intervalo. En otras palabras, es la variable que puede adquirir cualquier valor dentro un intervalo especificado de valores. Por ejemplo la masa (2,3 kg, 2,4 kg,2,5 kg …) o la altura (1,65 m, 1,66 m, …) o el salario. **Distribución Normal**
+5) Según nivel de influencia:
 
-5) Según nivel de Influencia:
+Dependientes - Una variable dependiente es aquella cuyos valores dependen de los que tomen otras variables. **La variable dependiente es una función**. Son las variables de respuesta que se observan en el estudio, y que podrían estar influidas por los valores de las variables independientes.
 
-- **Dependientes**: Una variable dependiente es aquella cuyos valores dependen de los que tomen otras variables. **La variable dependiente es una función**. Son las variables de respuesta que se observan en el estudio, y que podrían estar influidas por los valores de las variables independientes.
+Independientes -  Una variable independiente es aquella cuyo valor no depende de otra variable. Es aquella característica o propiedad que se supone es la causa del fenómeno estudiado.
 
-- **Independientes**: Una variable independiente es aquella cuyo valor no depende de otra variable. Es aquella característica o propiedad que se supone es la causa del fenómeno estudiado.
+Mas información:
 
+https://www.amarauna.euskadi.eus/es/recurso/variables-estadisticas/be9215aa-8ce0-4c04-9149-d27e0b107adf
 
 **Estadistica Descriptiva**
 **Estadistica Inferencial**
 
-Un parámetro estadístico es una medida poblacional. Este enfoque es el tradicional de la **estadística descriptiva**
+Un parámetro estadístico es una medida poblacional y este enfoque es el tradicional de la **estadística descriptiva**
 
 Es la técnica matemática que obtiene, organiza, presenta y describe un conjunto de datos con el propósito de facilitar el uso, generalmente con el apoyo de tablas, medidas numéricas o gráficas.
 
 Estas técnicas son utilizadas en el proceso de investigación, en la etapa donde el investigador necesita procesar y analizar los datos recolectados en dicho estudio.
 
-Por su parte la **inferencia estadística** utiliza el concepto de parámetro en su significado matemático más puro, esto es, como variable que define una familia de objetos matemáticos en determinados modelos.
+Sin embargo, la **inferencia estadística** utiliza el concepto de parámetro en su significado matemático más puro, es decir, como variable que define una familia de objetos matemáticos en determinados modelos.
 
-En ocasiones los parámetros de una determinada población no pueden conocerse con certeza. Generalmente esto ocurre porque es imposible el estudio de la población completa por cuestiones como que el proceso sea destructivo (p. e., vida media de una bombilla) o muy caro (p.e., audiencias de televisión). En tales situaciones se recurre a las **técnicas de la inferencia estadística** para **realizar estimaciones de tales parámetros a partir de los valores obtenidos de una muestra de la población**.
+En ocasiones los parámetros de una determinada población no pueden conocerse con certeza. Esto ocurre porque es imposible el estudio de la población completa por diferentes cuestiones. Generalmente, por cuestiones economicas. En tales situaciones se recurre a las técnicas de la inferencia estadística para **realizar estimaciones de tales parámetros a partir de los valores obtenidos de una muestra de la población**.
 
 Se distingue entonces entre parámetros y estadísticos
 
-Mientras que un **parámetro** es una función de los datos de la **población**, el **estadístico** lo es de los datos de una **muestra**. De este modo pueden definirse la media muestral, la varianza muestral o cualquier otro párametro de los vistos más arriba.
-
-Por ejemplo, dada una **muestra estadística** de tamaño n, de una **variable aleatoria** X con **distribución de probabilidad** F(x,θ), donde θ es un conjunto de parámetros de la distribución...
-
-...podemos definir la **media muestral n-esima** con una formula...
-...en el caso concreto de la **varianza muestral**, suele tomarse, por sus mejores propiedades como estimador, otra formula (buscar en internet), donde se ha tomado como denominador n-1, en lugar de n. A este parámetro también se le llama cuasivarianza.
+Mientras que un parámetro es una función de los datos de la población, el estadístico lo es de los datos de una muestra. De este modo pueden definirse la media muestral, la varianza muestral o cualquier otro párametro de los vistos más arriba.
 
 **Estimador**
 
@@ -139,7 +128,7 @@ Por ejemplo, si se desea conocer el precio medio de un artículo (el parámetro 
 
 Para cada parámetro pueden existir varios estimadores diferentes. En general, escogeremos el estimador que posea mejores propiedades que los restantes, como insesgadez, eficiencia, convergencia y robustez (consistencia).
 
-El valor de un estimador proporciona lo que se denomina en estadística una **estimación puntual** del valor del parámetro en estudio. En general, se suele preferir realizar una estimación mediante un intervalo, esto es, obtener un intervalo [a,b] dentro del cual se espera esté el valor real del parámetro con un cierto **nivel de confianza**. Utilizar un intervalo resulta más informativo, al proporcionar información sobre el posible **error de estimación**, asociado con la amplitud de dicho intervalo. 
+El valor de un estimador proporciona lo que se denomina en estadística una estimación puntual del valor del parámetro en estudio. En general, se suele preferir realizar una estimación mediante un intervalo, esto es, obtener un intervalo [a,b] dentro del cual se espera esté el valor real del parámetro con un cierto **nivel de confianza**. Utilizar un intervalo resulta más informativo, al proporcionar información sobre el posible **error de estimación**, asociado con la amplitud de dicho intervalo. 
 
 El nivel de confianza es la probabilidad de que a priori el verdadero valor del parámetro quede contenido en el intervalo.
 
@@ -154,7 +143,3 @@ Una variable aleatoria puede concebirse como un valor numérico que está afecta
 Por ejemplo, en una epidemia de cólera, se sabe que una persona cualquiera puede enfermar o no (suceso), pero no se sabe cuál de los dos sucesos va a ocurrir. Solamente se puede decir que existe una probabilidad de que la persona enferme.
 
 Para trabajar de manera sólida con variables aleatorias en general es necesario considerar un gran número de **experimentos aleatorios**, para su tratamiento estadístico, cuantificar los resultados de modo que se asigne un número real a cada uno de los resultados posibles del experimento. De este modo se establece una relación funcional entre elementos del espacio muestral asociado al experimento y números reales.
-
-Para seguir leyendo sobre las variables aleatorias:
-
-https://es.wikipedia.org/wiki/Variable_aleatoria#Concepto_intuitivo
