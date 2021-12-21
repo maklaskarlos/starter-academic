@@ -1,7 +1,7 @@
 ---
 # Documentation: https://wowchemy.com/docs/managing-content/
 
-title: "Estadistica: Distribuciones de Probabilidad"
+title: "Estatistika: Probabilitate-Banaketa"
 subtitle: "Conceptos basicos"
 summary: ""
 authors: [Karlos Garcia]

@@ -1,7 +1,7 @@
 ---
 # Documentation: https://wowchemy.com/docs/managing-content/
 
-title: "Estadistica: Intro"
+title: "Estatistika: Sarrera"
 subtitle: "Conceptos basicos"
 summary: ""
 authors: [Karlos Garcia]

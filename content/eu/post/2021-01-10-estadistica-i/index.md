@@ -1,7 +1,7 @@
 ---
 # Documentation: https://wowchemy.com/docs/managing-content/
 
-title: "Estadistica: Estimacion de Parametros"
+title: "Estatistika: Estimazio Parametrikoa"
 subtitle: "Conceptos basicos"
 summary: ""
 authors: [Karlos Garcia]
